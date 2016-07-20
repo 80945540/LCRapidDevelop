@@ -20,6 +20,7 @@ import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyReQuest;
+import com.xiaochao.lcrapiddevelop.entity.DataDto;
 import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
@@ -56,11 +57,12 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
             }
         });
         initView();
+        initListener();
     }
+
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        swipeLayout.setOnRefreshListener(this);
         progress = (ProgressActivity) findViewById(R.id.progress);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -69,14 +71,20 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         mQuickAdapter = new SectionAdapter(R.layout.list_view_item_layout,R.layout.def_section_head,null);
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.setOnLoadMoreListener(this);
-        mQuickAdapter.openLoadMore(3,true);
+        mQuickAdapter.openLoadMore(4,true);
         mRecyclerView.setAdapter(mQuickAdapter);
+
+    }
+    private void initListener() {
+        swipeLayout.setOnRefreshListener(this);
+        mQuickAdapter.setOnLoadMoreListener(this);
+
         mQuickAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 MySection mySection = (MySection) mQuickAdapter.getData().get(position);
                 if (!mySection.isHeader)
-                Toast.makeText(ListviewGroupingActivity.this,mySection.t.getCnName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListviewGroupingActivity.this,mySection.t.getCnName(), Toast.LENGTH_SHORT).show();
             }
         });
         mQuickAdapter.setOnRecyclerViewItemChildClickListener(new BaseQuickAdapter.OnRecyclerViewItemChildClickListener() {
@@ -86,7 +94,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
             }
         });
     }
-    public void initdate(int PageIndex,final Boolean isJz){
+    public void initdate(final int PageIndex, final Boolean isJz){
         Map<String,String> map=new HashMap<String,String>();
         map.put("ProvinceIds","");
         map.put("Classify","");
@@ -95,11 +103,37 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         map.put("PageIndex",PageIndex+"");
         map.put("PageSize","4");
         JSONObject json=new JSONObject(map);
-        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(this, VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
             @Override
             public JSONObject onMySuccess(JSONObject response) {
-                Log.d("FindUniversityActivity", response.toString());
-                httpDate(response, isJz);
+                DataDto<UniversityListDto> data=JsonData.httpDate(response,isJz);
+                switch (data.getType()){
+                    case JsonData.DATA_LOAD_OK:
+                        //新增自动加载的的数据
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(data.getT(),PageIndex), true);
+                        break;
+                    case JsonData.DATA_LOAD_NULL:
+                        //所有数据加载完成后显示
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+                        mQuickAdapter.addFooterView(view);
+                        break;
+                    case JsonData.DATA_REFRESH_OK:
+                        //进入显示的初始数据或者下拉刷新显示的数据
+                        mQuickAdapter.setNewData(JsonData.getSampleData(data.getT(),PageIndex));//新增数据
+                        mQuickAdapter.openLoadMore(4,true);//设置是否可以下拉加载  以及加载条数
+                        swipeLayout.setRefreshing(false);//刷新成功
+                        progress.showContent();
+                        break;
+                    case JsonData.DATA_REFRESH_NULL:
+                        //设置页面为无数据
+                        toEmpty();
+                        break;
+                    case JsonData.DATA_ERROR:
+                        //设置页面为加载错误
+                        toError();
+                        break;
+                }
                 return response;
             }
 
@@ -109,44 +143,6 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
                 return null;
             }
         });
-    }
-    private void httpDate(JSONObject response,Boolean isJz) {
-        IsError error = JsonData.josnToObj(response);
-        if (error.getCode() == 1) {
-            try {
-                JSONArray array1 = response.getJSONArray("Results");
-                Gson gson = new Gson();
-                if (isJz) {
-                    List<UniversityListDto> expertLists = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if (expertLists.size() == 0) {
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    } else {
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(getSampleData(expertLists), true);
-                    }
-                } else {
-                    List<UniversityListDto> expertLists  = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if(expertLists.size()==0) {
-                        toEmpty();
-                    }else{
-                        mQuickAdapter.setNewData(getSampleData(expertLists));
-                        mQuickAdapter.openLoadMore(4,true);
-                        swipeLayout.setRefreshing(false);
-                        progress.showContent();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                toEmpty();
-            }
-        } else {
-            toError();
-        }
     }
     public void toError(){
         try {
@@ -179,17 +175,5 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     public void onLoadMoreRequested() {
         PageIndex++;
         initdate(PageIndex,true);
-    }
-    public List<MySection> getSampleData(List<UniversityListDto> expertLists) {
-        List<MySection> list = new ArrayList<>();
-        if(PageIndex%2==0){
-            list.add(new MySection(true, "分组"+PageIndex, false));
-        }else{
-            list.add(new MySection(true, "分组"+PageIndex, true));
-        }
-        for (UniversityListDto UniversityListDto:expertLists) {
-            list.add(new MySection(UniversityListDto));
-        }
-        return list;
     }
 }

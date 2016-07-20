@@ -20,6 +20,7 @@ import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyReQuest;
+import com.xiaochao.lcrapiddevelop.entity.DataDto;
 import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
@@ -44,6 +45,12 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listv_view);
+        toolBar();
+        initView();
+        initListener();
+    }
+
+    private void toolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,23 +60,35 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
                 finish();
             }
         });
-        initView();
     }
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         progress = (ProgressActivity) findViewById(R.id.progress);
-        swipeLayout.setOnRefreshListener(this);
+        //设置RecyclerView的显示模式  当前List模式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //如果Item高度固定  增加该属性能够提高效率
         mRecyclerView.setHasFixedSize(true);
+        //设置页面为加载中..
         progress.showLoading();
+        //请求网络数据
         initdate(PageIndex,false);
+        //设置适配器
         mQuickAdapter = new ListViewAdapter(R.layout.list_view_item_layout,null);
-        mQuickAdapter.setOnLoadMoreListener(this);
+        //设置加载动画
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        //设置是否自动加载以及加载个数
         mQuickAdapter.openLoadMore(6,true);
+        //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
+    }
+    private void initListener() {
+        //设置下拉刷新监听
+        swipeLayout.setOnRefreshListener(this);
+        //设置自动加载监听
+        mQuickAdapter.setOnLoadMoreListener(this);
+
         mQuickAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -98,11 +117,37 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
         map.put("PageIndex",PageIndex+"");
         map.put("PageSize","10");
         JSONObject json=new JSONObject(map);
-        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(this, VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
             @Override
             public JSONObject onMySuccess(JSONObject response) {
-                Log.d("FindUniversityActivity", response.toString());
-                httpDate(response, isJz);
+                DataDto<UniversityListDto> data=JsonData.httpDate(response,isJz);
+                switch (data.getType()){
+                    case JsonData.DATA_LOAD_OK:
+                        //新增自动加载的的数据
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(data.getT(), true);
+                        break;
+                    case JsonData.DATA_LOAD_NULL:
+                        //所有数据加载完成后显示
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+                        mQuickAdapter.addFooterView(view);
+                        break;
+                    case JsonData.DATA_REFRESH_OK:
+                        //进入显示的初始数据或者下拉刷新显示的数据
+                        mQuickAdapter.setNewData(data.getT());//新增数据
+                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+                        swipeLayout.setRefreshing(false);//刷新成功
+                        progress.showContent();
+                        break;
+                    case JsonData.DATA_REFRESH_NULL:
+                        //设置页面为无数据
+                        toEmpty();
+                        break;
+                    case JsonData.DATA_ERROR:
+                        //设置页面为加载错误
+                        toError();
+                        break;
+                }
                 return response;
             }
 
@@ -112,48 +157,6 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
                 return null;
             }
         });
-    }
-    private void httpDate(JSONObject response,Boolean isJz) {
-        IsError error = JsonData.josnToObj(response);
-        if (error.getCode() == 1) {
-            try {
-                JSONArray array1 = response.getJSONArray("Results");
-                Gson gson = new Gson();
-                if (isJz) {
-                    List<UniversityListDto> expertLists = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if (expertLists.size() == 0) {
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    } else {
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(expertLists, true);
-                    }
-                } else {
-                    List<UniversityListDto> expertLists  = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if(expertLists.size()==0) {
-                        //没有找到数据显示
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(expertLists);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        swipeLayout.setRefreshing(false);//刷新成功
-                        progress.showContent();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                toEmpty();
-            }
-        } else {
-            toError();
-        }
     }
     public void toError(){
         try {

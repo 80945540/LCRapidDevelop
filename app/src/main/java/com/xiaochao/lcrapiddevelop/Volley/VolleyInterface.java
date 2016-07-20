@@ -9,13 +9,11 @@ import com.android.volley.VolleyError;
 import org.json.JSONObject;
 
 public abstract class VolleyInterface {
-	public Context mcontext;
 	public static Listener<JSONObject> mLisener;
 	public static ErrorListener mErrorLisener;
-	public VolleyInterface(Context mcontext, Listener<JSONObject> mLisener,
+	public VolleyInterface(Listener<JSONObject> mLisener,
 			ErrorListener mErrorLisener) {
 		super();
-		this.mcontext = mcontext;
 		this.mLisener = mLisener;
 		this.mErrorLisener = mErrorLisener;
 	}

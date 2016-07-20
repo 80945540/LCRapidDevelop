@@ -23,6 +23,7 @@ public class MainAdapter extends BaseQuickAdapter<MainDateDto> {
     protected void convert(BaseViewHolder helper, MainDateDto item) {
         helper.setText(R.id.tv_title,item.getTitle()+"")
                 .setText(R.id.tv_content,item.getInfo()+"");
+        //通过Glide显示图片
         Glide.with(mContext)
                 .load(item.getImageUrl())
                 .crossFade()

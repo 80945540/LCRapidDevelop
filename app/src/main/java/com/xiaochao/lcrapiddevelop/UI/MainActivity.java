@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
-
 import com.xiaochao.lcrapiddevelop.Adapter.MainAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Data;
 import com.xiaochao.lcrapiddevelop.R;
@@ -25,16 +23,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
+        initListener();
     }
-
     private void initView() {
         activityToolbar = (Toolbar) findViewById(R.id.activityToolbar);
         setSupportActionBar(activityToolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
+        //设置RecyclerView的显示模式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //设置适配器
         homeAdapter = new MainAdapter( R.layout.main_item_layout, Data.getData());
+        //设置加载动画
         homeAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        //将适配器添加到RecyclerView
+        mRecyclerView.setAdapter(homeAdapter);
+    }
+    private void initListener() {
         homeAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             private Intent intent;
             @Override
@@ -56,12 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(MainActivity.this,ChatLayoutActivity.class);
                         startActivity(intent);
                         break;
-                    default:
-                        Toast.makeText(MainActivity.this, "点击了", Toast.LENGTH_SHORT).show();
-                        break;
                 }
             }
         });
-        mRecyclerView.setAdapter(homeAdapter);
     }
 }

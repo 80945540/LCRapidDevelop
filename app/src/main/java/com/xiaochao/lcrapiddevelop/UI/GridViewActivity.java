@@ -20,6 +20,7 @@ import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyReQuest;
+import com.xiaochao.lcrapiddevelop.entity.DataDto;
 import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
@@ -45,6 +46,11 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_view);
+        toolbar();
+        initView();
+    }
+
+    private void toolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,28 +62,35 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
                 finish();
             }
         });
-        initView();
+        intiListener();
     }
-    private void initView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        progress = (ProgressActivity) findViewById(R.id.progress);
+
+    private void intiListener() {
+
         swipeLayout.setOnRefreshListener(this);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        mRecyclerView.setHasFixedSize(true);
-        progress.showLoading();
-        initdate(PageIndex,false);
-        mQuickAdapter = new ListViewAdapter(R.layout.list_view_item_layout,null);
         mQuickAdapter.setOnLoadMoreListener(this);
-        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        mQuickAdapter.openLoadMore(6,true);
-        mRecyclerView.setAdapter(mQuickAdapter);
         mQuickAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(GridViewActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private void initView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        progress = (ProgressActivity) findViewById(R.id.progress);
+        //与Listview唯一的区别就是这里new GridLayoutManager(this,2) 数字代表列数
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        mRecyclerView.setHasFixedSize(true);
+        progress.showLoading();
+        initdate(PageIndex,false);
+        mQuickAdapter = new ListViewAdapter(R.layout.list_view_item_layout,null);
+        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        mQuickAdapter.openLoadMore(6,true);
+        mRecyclerView.setAdapter(mQuickAdapter);
     }
 
     @Override
@@ -100,11 +113,37 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
         map.put("PageIndex",PageIndex+"");
         map.put("PageSize","10");
         JSONObject json=new JSONObject(map);
-        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(this, VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
             @Override
             public JSONObject onMySuccess(JSONObject response) {
-                Log.d("FindUniversityActivity", response.toString());
-                httpDate(response, isJz);
+                DataDto<UniversityListDto> data=JsonData.httpDate(response,isJz);
+                switch (data.getType()){
+                    case JsonData.DATA_LOAD_OK:
+                        //新增自动加载的的数据
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(data.getT(), true);
+                        break;
+                    case JsonData.DATA_LOAD_NULL:
+                        //所有数据加载完成后显示
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+                        mQuickAdapter.addFooterView(view);
+                        break;
+                    case JsonData.DATA_REFRESH_OK:
+                        //进入显示的初始数据或者下拉刷新显示的数据
+                        mQuickAdapter.setNewData(data.getT());//新增数据
+                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+                        swipeLayout.setRefreshing(false);//刷新成功
+                        progress.showContent();
+                        break;
+                    case JsonData.DATA_REFRESH_NULL:
+                        //设置页面为无数据
+                        toEmpty();
+                        break;
+                    case JsonData.DATA_ERROR:
+                        //设置页面为加载错误
+                        toError();
+                        break;
+                }
                 return response;
             }
 
@@ -114,44 +153,6 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
                 return null;
             }
         });
-    }
-    private void httpDate(JSONObject response,Boolean isJz) {
-        IsError error = JsonData.josnToObj(response);
-        if (error.getCode() == 1) {
-            try {
-                JSONArray array1 = response.getJSONArray("Results");
-                Gson gson = new Gson();
-                if (isJz) {
-                    List<UniversityListDto> expertLists = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if (expertLists.size() == 0) {
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    } else {
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(expertLists, true);
-                    }
-                } else {
-                    List<UniversityListDto> expertLists  = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if(expertLists.size()==0) {
-                        toEmpty();
-                    }else{
-                        mQuickAdapter.setNewData(expertLists);
-                        mQuickAdapter.openLoadMore(10,true);
-                        swipeLayout.setRefreshing(false);
-                        progress.showContent();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                toEmpty();
-            }
-        } else {
-            toError();
-        }
     }
     public void toError(){
         try {
