@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">快速开发框架</string>
+    <string name="title_activity_listv_view">ListvView模式</string>
+    <string name="title_activity_grid_view">GridView模式</string>
+    <string name="title_activity_grid_grouping_view">ListView分组模式</string>
+    <string name="title_activity_list_chat_view">多布局ListView显示</string>
+
+</resources>

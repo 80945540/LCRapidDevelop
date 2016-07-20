@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LCRapidDevelopLibrary</string>
+    <string name="loading">正在加载中...</string>
+    <string name="progressActivityErrorButton">重试</string>
+    <string name="progressActivityEmptyTitlePlaceholder">没有数据</string>
+    <string name="progressActivityEmptyContentPlaceholder">没有找到数据请点击重试</string>
+    <string name="progressActivityErrorTitlePlaceholder">网络连接失败</string>
+    <string name="progressActivityErrorContentPlaceholder">无法连接到网络,请检查后重试</string>
+</resources>

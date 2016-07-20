@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xiaochao.lcrapiddevelop.UI.GridViewActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+    <com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity
+        xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        progressActivity:loadingBackgroundColor="#FFFFFF"
+        progressActivity:emptyBackgroundColor="#fbc02d"
+        progressActivity:emptyContentTextColor="#FFFFFF"
+        progressActivity:emptyTitleTextColor="#FFFFFF"
+        progressActivity:errorBackgroundColor="#42a5f5"
+        progressActivity:errorButtonTextColor="#FFFFFF"
+        progressActivity:errorContentTextColor="#FFFFFF"
+        progressActivity:errorTitleTextColor="#FFFFFF">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="2.5dp"
+            android:paddingRight="2.5dp"
+            android:orientation="vertical"
+            >
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+        </LinearLayout>
+    </com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity>
+</LinearLayout>

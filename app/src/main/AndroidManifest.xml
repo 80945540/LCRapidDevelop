@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xiaochao.lcrapiddevelop">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".MyApplication.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".UI.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.ListvViewActivity"
+            android:label="@string/title_activity_listv_view"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UI.GridViewActivity"
+            android:label="@string/title_activity_grid_view"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UI.ListviewGroupingActivity"
+            android:label="@string/title_activity_grid_grouping_view" />
+        <activity android:name=".UI.ChatLayoutActivity"
+            android:label="@string/title_activity_list_chat_view"></activity>
+    </application>
+
+</manifest>

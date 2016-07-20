@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+
+    defaultConfig {
+        applicationId "com.xiaochao.lcrapiddevelop"
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile project(':lcrapiddeveloplibrary')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
+    compile 'com.netflix.feign:feign-gson:8.17.0'
+}
