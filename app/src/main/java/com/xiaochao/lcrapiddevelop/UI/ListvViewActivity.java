@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaochao.lcrapiddevelop.Adapter.ListViewAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Constant;
+import com.xiaochao.lcrapiddevelop.Data.DataInterface;
 import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
@@ -109,15 +110,7 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
         initdate(PageIndex,true);
     }
     public void initdate(int PageIndex,final Boolean isJz){
-        Map<String,String> map=new HashMap<String,String>();
-        map.put("ProvinceIds","");
-        map.put("Classify","");
-        map.put("CollegeLevel","");
-        map.put("IsBen","");
-        map.put("PageIndex",PageIndex+"");
-        map.put("PageSize","10");
-        JSONObject json=new JSONObject(map);
-        VolleyReQuest.ReQuestPost_null(this, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+        JsonData.initdate(this, PageIndex,10, isJz, new DataInterface() {
             @Override
             public JSONObject onMySuccess(JSONObject response) {
                 DataDto<UniversityListDto> data=JsonData.httpDate(response,isJz);
@@ -150,11 +143,9 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
                 }
                 return response;
             }
-
             @Override
-            public String onMyError(VolleyError error) {
-                toError();
-                return null;
+            public void onMyError() {
+                toEmpty();
             }
         });
     }

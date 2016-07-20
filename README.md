@@ -9,11 +9,14 @@
 --------
 
 ##效果图展示
-<img src="/image/image1.png" style="width: 30%;">
-<img src="/image/image2.png" style="width: 30%;">
-<img src="/image/image3.png" style="width: 30%;">
-<img src="/image/image4.png" style="width: 30%;">
-<img src="/image/image5.png" style="width: 30%;">
+<img src="/image/image1.png" style="width: 20%;">
+<img src="/image/image2.png" style="width: 20%;">
+<img src="/image/image3.png" style="width: 20%;">
+<img src="/image/image4.png" style="width: 20%;">
+<img src="/image/image5.png" style="width: 20%;">
+<img src="/image/image6.png" style="width: 20%;">
+<img src="/image/image7.png" style="width: 20%;">
+<img src="/image/image8.png" style="width: 20%;">
 
 --------------
 

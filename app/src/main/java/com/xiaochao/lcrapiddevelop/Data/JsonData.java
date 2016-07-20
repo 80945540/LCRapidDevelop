@@ -44,6 +44,29 @@ public class JsonData {
             return new IsError(0,0,1001,"程序发生未知错误","");
         }
     }
+    public static void initdate(Context context, int PageIndex,int PageSize, final Boolean isJz, final DataInterface dataInterface){
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("ProvinceIds","");
+        map.put("Classify","");
+        map.put("CollegeLevel","");
+        map.put("IsBen","");
+        map.put("PageIndex",PageIndex+"");
+        map.put("PageSize",PageSize+"");
+        JSONObject json=new JSONObject(map);
+        VolleyReQuest.ReQuestPost_null(context, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+            @Override
+            public JSONObject onMySuccess(JSONObject response) {
+                dataInterface.onMySuccess(response);
+                return response;
+            }
+
+            @Override
+            public String onMyError(VolleyError error) {
+                dataInterface.onMyError();
+                return null;
+            }
+        });
+    }
     public static DataDto<UniversityListDto> httpDate(JSONObject response, Boolean isJz) {
         IsError error = JsonData.josnToObj(response);
         if (error.getCode() == 1) {
