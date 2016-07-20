@@ -48,34 +48,33 @@
 
 具体的相关功能请下载demo查看,比如下拉刷新,自动加载,滑动动画....
 
-    if (isJz) {
-                    List<UniversityListDto> expertLists = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if (expertLists.size() == 0) {
-                        //所有数据加载完成后显示
-                           mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    } else {
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(expertLists, true);
+    switch (data.getType()){
+                        case JsonData.DATA_LOAD_OK:
+                            //新增自动加载的的数据
+                            mQuickAdapter.notifyDataChangedAfterLoadMore(data.getT(), true);
+                            break;
+                        case JsonData.DATA_LOAD_NULL:
+                            //所有数据加载完成后显示
+                            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+                            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+                            mQuickAdapter.addFooterView(view);
+                            break;
+                        case JsonData.DATA_REFRESH_OK:
+                            //进入显示的初始数据或者下拉刷新显示的数据
+                            mQuickAdapter.setNewData(data.getT());//新增数据
+                            mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+                            swipeLayout.setRefreshing(false);//刷新成功
+                            progress.showContent();
+                            break;
+                        case JsonData.DATA_REFRESH_NULL:
+                            //设置页面为无数据
+                            toEmpty();
+                            break;
+                        case JsonData.DATA_ERROR:
+                            //设置页面为加载错误
+                            toError();
+                            break;
                     }
-                } else {
-                    List<UniversityListDto> expertLists  = gson.fromJson(array1.toString(),
-                            new TypeToken<List<UniversityListDto>>() {
-                            }.getType());
-                    if(expertLists.size()==0) {
-                        //没有找到数据显示
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(expertLists);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        swipeLayout.setRefreshing(false);//刷新成功
-                        progress.showContent();
-                    }
-                }
 
 -----------
 
