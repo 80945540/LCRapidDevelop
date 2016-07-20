@@ -48,5 +48,4 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<ChatDto>
                 break;
         }
     }
-
 }

@@ -124,10 +124,12 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
                             new TypeToken<List<UniversityListDto>>() {
                             }.getType());
                     if (expertLists.size() == 0) {
+                        //所有数据加载完成后显示
                         mQuickAdapter.notifyDataChangedAfterLoadMore(false);
                         View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
                         mQuickAdapter.addFooterView(view);
                     } else {
+                        //新增自动加载的的数据
                         mQuickAdapter.notifyDataChangedAfterLoadMore(expertLists, true);
                     }
                 } else {
@@ -135,11 +137,13 @@ public class ListvViewActivity extends AppCompatActivity implements SwipeRefresh
                             new TypeToken<List<UniversityListDto>>() {
                             }.getType());
                     if(expertLists.size()==0) {
+                        //没有找到数据显示
                         toEmpty();
                     }else{
-                        mQuickAdapter.setNewData(expertLists);
-                        mQuickAdapter.openLoadMore(10,true);
-                        swipeLayout.setRefreshing(false);
+                        //进入显示的初始数据或者下拉刷新显示的数据
+                        mQuickAdapter.setNewData(expertLists);//新增数据
+                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+                        swipeLayout.setRefreshing(false);//刷新成功
                         progress.showContent();
                     }
                 }
