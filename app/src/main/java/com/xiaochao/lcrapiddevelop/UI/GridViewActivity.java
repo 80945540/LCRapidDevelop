@@ -87,11 +87,11 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         mRecyclerView.setHasFixedSize(true);
         progress.showLoading();
-        initdate(PageIndex,false);
         mQuickAdapter = new ListViewAdapter(R.layout.list_view_item_layout,null);
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.openLoadMore(6,true);
         mRecyclerView.setAdapter(mQuickAdapter);
+        initdate(PageIndex,false);
     }
 
     @Override

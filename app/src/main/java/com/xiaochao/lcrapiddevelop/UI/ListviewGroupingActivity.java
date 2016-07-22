@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -26,7 +28,13 @@ import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
+import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.DefaultHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.MeituanHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
+import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,12 +76,12 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         progress.showLoading();
-        initdate(PageIndex,false);
         mQuickAdapter = new SectionAdapter(R.layout.list_view_item_layout,R.layout.def_section_head,null);
-        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+//        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.openLoadMore(4,true);
         mRecyclerView.setAdapter(mQuickAdapter);
+        initdate(PageIndex,false);
 
     }
     private void initListener() {
@@ -83,9 +91,13 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         mQuickAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MySection mySection = (MySection) mQuickAdapter.getData().get(position);
-                if (!mySection.isHeader)
-                    Toast.makeText(ListviewGroupingActivity.this,mySection.t.getCnName(), Toast.LENGTH_SHORT).show();
+                try {
+                    MySection mySection = (MySection) mQuickAdapter.getData().get(position);
+                    if (!mySection.isHeader)
+                        Toast.makeText(ListviewGroupingActivity.this,mySection.t.getCnName(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         mQuickAdapter.setOnRecyclerViewItemChildClickListener(new BaseQuickAdapter.OnRecyclerViewItemChildClickListener() {
@@ -166,5 +178,48 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     public void onLoadMoreRequested() {
         PageIndex++;
         initdate(PageIndex,true);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_list_grouping, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id){
+            case R.id.action_settings_AlphaIn:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+            case R.id.action_settings_ScaleIn:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+            case R.id.action_settings_SlideInBottom:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+            case R.id.action_settings_SlideInLeft:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+            case R.id.action_settings_SlideInRight:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+            case R.id.action_settings_Custom:
+                mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_CUSTOM);
+                mRecyclerView.setAdapter(mQuickAdapter);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

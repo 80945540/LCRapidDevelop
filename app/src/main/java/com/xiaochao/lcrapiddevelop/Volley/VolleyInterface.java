@@ -37,6 +37,6 @@ public abstract class VolleyInterface {
 		};
 		return mErrorLisener;	
 	}
-	public  abstract JSONObject onMySuccess(JSONObject response);
-	public abstract String onMyError(VolleyError error);
+	public  abstract void onMySuccess(JSONObject response);
+	public abstract void onMyError(VolleyError error);
 }

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import com.xiaochao.lcrapiddevelop.Adapter.MainAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Data;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         activityToolbar = (Toolbar) findViewById(R.id.activityToolbar);
         setSupportActionBar(activityToolbar);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         //设置RecyclerView的显示模式
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

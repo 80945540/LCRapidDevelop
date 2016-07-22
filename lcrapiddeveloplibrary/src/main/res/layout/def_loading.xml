@@ -11,7 +11,8 @@
         android:layout_width="@dimen/dp_22"
         android:layout_height="@dimen/dp_22"
         android:layout_marginRight="@dimen/dp_4"
-        android:indeterminateDrawable="@drawable/sample_footer_loading_progress" />
+        android:indeterminateDrawable="@drawable/progress_gear"
+        />
 
     <TextView
         android:id="@+id/loading_text"

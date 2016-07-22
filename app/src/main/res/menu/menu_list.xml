@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UI.ListvViewActivity" >
+    <item
+        android:id="@+id/action_settings_AcFun"
+        android:orderInCategory="100"
+        android:title="AcFun下拉刷新"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_Ali"
+        android:orderInCategory="100"
+        android:title="阿里版下拉刷新"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_Default"
+        android:orderInCategory="100"
+        android:title="带更新时间刷新"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_Meituan"
+        android:orderInCategory="100"
+        android:title="美团版下拉刷新"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_Rotation"
+        android:orderInCategory="100"
+        android:title="齿轮下拉刷新"
+        app:showAsAction="never"/>
+</menu>

@@ -28,17 +28,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipeLayout"
+            <com.xiaochao.lcrapiddeveloplibrary.widget.SpringView
+                android:id="@+id/springview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:background="#FFFFFF"
                 >
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"/>
+            </com.xiaochao.lcrapiddeveloplibrary.widget.SpringView>
 
         </LinearLayout>
     </com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity>

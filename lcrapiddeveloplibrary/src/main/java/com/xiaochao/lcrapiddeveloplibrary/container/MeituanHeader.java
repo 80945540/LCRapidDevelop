@@ -23,8 +23,8 @@ public class MeituanHeader extends BaseHeader {
 
     private Context context;
     private ImageView header_img;
-    private int[] pullAnimSrcs = new int[]{R.drawable.mt_pull,R.drawable.mt_pull01,R.drawable.mt_pull02,R.drawable.mt_pull03,R.drawable.mt_pull04,R.drawable.mt_pull05};
-    private int[] refreshAnimSrcs = new int[]{R.drawable.mt_refreshing01,R.drawable.mt_refreshing02,R.drawable.mt_refreshing03,R.drawable.mt_refreshing04,R.drawable.mt_refreshing05, R.drawable.mt_refreshing06};
+    private int[] pullAnimSrcs ;
+    private int[] refreshAnimSrcs;
 
     public MeituanHeader(Context context){
         this(context,null,null);

@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.xiaochao.lcrapiddevelop.MyApplication.MyApplication;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
 import com.xiaochao.lcrapiddevelop.Volley.VolleyReQuest;
@@ -16,6 +17,7 @@ import com.xiaochao.lcrapiddevelop.entity.DataDto;
 import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddeveloplibrary.Cache.ACache;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,28 +46,31 @@ public class JsonData {
             return new IsError(0,0,1001,"程序发生未知错误","");
         }
     }
-    public static void initdate(Context context, int PageIndex,int PageSize, final Boolean isJz, final DataInterface dataInterface){
-        Map<String,String> map=new HashMap<String,String>();
-        map.put("ProvinceIds","");
-        map.put("Classify","");
-        map.put("CollegeLevel","");
-        map.put("IsBen","");
-        map.put("PageIndex",PageIndex+"");
-        map.put("PageSize",PageSize+"");
-        JSONObject json=new JSONObject(map);
-        VolleyReQuest.ReQuestPost_null(context, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
-            @Override
-            public JSONObject onMySuccess(JSONObject response) {
-                dataInterface.onMySuccess(response);
-                return response;
-            }
+    public static void initdate(Context context, final int PageIndex, final int PageSize, final Boolean isJz, final DataInterface dataInterface){
+        if(MyApplication.getAcache().getAsString("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null&&isJz){
+            Map<String,String> map=new HashMap<String,String>();
+            map.put("ProvinceIds","");
+            map.put("Classify","");
+            map.put("CollegeLevel","");
+            map.put("IsBen","");
+            map.put("PageIndex",PageIndex+"");
+            map.put("PageSize",PageSize+"");
+            JSONObject json=new JSONObject(map);
+            VolleyReQuest.ReQuestPost_null(context, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    MyApplication.getAcache().put("data_test_PageIndex_"+1+"_PageSize_"+PageSize,response, 7*ACache.TIME_DAY);//缓存数据7天
+                    dataInterface.onMySuccess(response);
+                }
 
-            @Override
-            public String onMyError(VolleyError error) {
-                dataInterface.onMyError();
-                return null;
-            }
-        });
+                @Override
+                public void onMyError(VolleyError error) {
+                    dataInterface.onMyError();
+                }
+            });
+        }else{
+            dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+        }
     }
     public static DataDto<UniversityListDto> httpDate(JSONObject response, Boolean isJz) {
         IsError error = JsonData.josnToObj(response);
@@ -99,9 +104,9 @@ public class JsonData {
                 e.printStackTrace();
                 return new DataDto<UniversityListDto>(DATA_ERROR,null);
             }
-        } else {
-            return new DataDto<UniversityListDto>(DATA_ERROR,null);
         }
+        return new DataDto<UniversityListDto>(DATA_ERROR,null);
+
     }
     public static List<MySection> getSampleData(List<UniversityListDto> expertLists,int PageIndex) {
         List<MySection> list = new ArrayList<>();

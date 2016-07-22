@@ -14,6 +14,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.xiaochao.lcrapiddeveloplibrary.animation.AlphaInAnimation;
 import com.xiaochao.lcrapiddeveloplibrary.animation.BaseAnimation;
+import com.xiaochao.lcrapiddeveloplibrary.animation.CustomAnimation;
 import com.xiaochao.lcrapiddeveloplibrary.animation.ScaleInAnimation;
 import com.xiaochao.lcrapiddeveloplibrary.animation.SlideInBottomAnimation;
 import com.xiaochao.lcrapiddeveloplibrary.animation.SlideInLeftAnimation;
@@ -64,7 +65,7 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
     protected static final int UPDAYE_VIEW = 0x00000666;
     private View mLoadingView;
 
-    @IntDef({ALPHAIN, SCALEIN, SLIDEIN_BOTTOM, SLIDEIN_LEFT, SLIDEIN_RIGHT})
+    @IntDef({ALPHAIN, SCALEIN, SLIDEIN_BOTTOM, SLIDEIN_LEFT, SLIDEIN_RIGHT,SLIDEIN_CUSTOM})
     @Retention(RetentionPolicy.SOURCE)
     public @interface AnimationType {
     }
@@ -89,6 +90,8 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
      * Use with {@link #openLoadAnimation}
      */
     public static final int SLIDEIN_RIGHT = 0x00000005;
+
+    public static final int SLIDEIN_CUSTOM=0x00000006;
 
 
     /**
@@ -524,7 +527,6 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
     public void notifyDataChangedAfterLoadMore(List<T> data, boolean isNextLoad) {
         mData.addAll(data);
         notifyDataChangedAfterLoadMore(isNextLoad);
-
     }
 
 
@@ -623,6 +625,9 @@ public abstract class BaseQuickAdapter<T> extends RecyclerView.Adapter<RecyclerV
                 break;
             case SLIDEIN_RIGHT:
                 mSelectAnimation = new SlideInRightAnimation();
+                break;
+            case SLIDEIN_CUSTOM:
+                mSelectAnimation = new CustomAnimation();
                 break;
             default:
                 break;

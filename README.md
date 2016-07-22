@@ -7,6 +7,14 @@
  - [下载APK](http://fir.im/LCRapidDevelop) 
 
 --------
+##功能说明
+ - 网络请求及请求数据缓存
+ - 下拉刷新 上拉加载 及自动加载
+ - RecyclerView设配器
+ - RecyclerView item加载动画
+ - 页面状态统一管理 加载中  无数据  无网络
+ - 图片显示与缓存
+--------
 
 ##效果图展示
 <img src="/image/image1.png" style="width: 20%;">

@@ -20,7 +20,7 @@ public class MeituanFooter extends BaseFooter {
 
     private Context context;
     private ImageView footer_img;
-    private int[] loadingAnimSrcs = new int[]{R.drawable.mt_loading01,R.drawable.mt_loading02};
+    private int[] loadingAnimSrcs ;
 
     public MeituanFooter(Context context){
         this(context,null);

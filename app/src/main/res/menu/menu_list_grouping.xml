@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UI.ListviewGroupingActivity" >
+    <item
+        android:id="@+id/action_settings_AlphaIn"
+        android:orderInCategory="100"
+        android:title="AlphaIn"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_ScaleIn"
+        android:orderInCategory="100"
+        android:title="ScaleIn"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_SlideInBottom"
+        android:orderInCategory="100"
+        android:title="SlideInBottom"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_SlideInLeft"
+        android:orderInCategory="100"
+        android:title="SlideInLeft"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_SlideInRight"
+        android:orderInCategory="100"
+        android:title="SlideInRight"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_Custom"
+        android:orderInCategory="100"
+        android:title="Custom"
+        app:showAsAction="never"/>
+</menu>

@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Data {
     public static String[] MAIN_TITLE={"常见ListView显示","常见分组ListView显示","常见GridView显示","多布局Listview显示"};
-    public static String[] MAIN_INFO={"常见List列表显示\n包含下拉刷新,自动加载,图片显示及缓存\n数据加载页,无数据页,网络错误页",
-            "常见分组ListView显示\n包含下拉刷新,自动加载,图片显示及缓存\n数据加载页,无数据页,网络错误页",
+    public static String[] MAIN_INFO={"数据加载页,无数据页,网络错误页\n包含下拉刷新,自动加载,图片显示及缓存\n本页菜单可切换下拉刷新",
+            "数据加载页,无数据页,网络错误页\n包含下拉刷新,自动加载,图片显示及缓存\n本页菜单可切换加载动画",
             "常见GridView显示\n包含下拉刷新,自动加载,图片显示及缓存\n数据加载页,无数据页,网络错误页",
             "多布局ListView显示\n同一个ListView里面不同Item根据需求使用不同布局\n高效,简便"};
     public static String[] MAIN_IMAGE_URL={"http://e.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=9b8f4fa4da33c895a62b907fe4235fc6/0823dd54564e925845a2bedd9f82d158ccbf4e6a.jpg",
