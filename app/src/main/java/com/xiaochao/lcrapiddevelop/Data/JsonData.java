@@ -47,7 +47,7 @@ public class JsonData {
         }
     }
     public static void initdate(Context context, final int PageIndex, final int PageSize, final Boolean isJz, final DataInterface dataInterface){
-        if(MyApplication.getAcache().getAsString("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null&&isJz){
+//        if(MyApplication.getAcache().getAsString("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null&&isJz){
             Map<String,String> map=new HashMap<String,String>();
             map.put("ProvinceIds","");
             map.put("Classify","");
@@ -59,7 +59,7 @@ public class JsonData {
             VolleyReQuest.ReQuestPost_null(context, Constant.DATA_URL, "school_list_post", json, new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
                 @Override
                 public void onMySuccess(JSONObject response) {
-                    MyApplication.getAcache().put("data_test_PageIndex_"+1+"_PageSize_"+PageSize,response, 7*ACache.TIME_DAY);//缓存数据7天
+                    MyApplication.getAcache().put("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize,response, 7*ACache.TIME_DAY);//缓存数据7天
                     dataInterface.onMySuccess(response);
                 }
 
@@ -68,9 +68,9 @@ public class JsonData {
                     dataInterface.onMyError();
                 }
             });
-        }else{
-            dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
-        }
+//        }else{
+//            dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+//        }
     }
     public static DataDto<UniversityListDto> httpDate(JSONObject response, Boolean isJz) {
         IsError error = JsonData.josnToObj(response);
