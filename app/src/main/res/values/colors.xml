@@ -3,4 +3,8 @@
     <color name="primary">#2196F3</color>
     <color name="darkPrimary">#1976D2</color>
     <color name="accent">#FF4081</color>
+    <color name="title_bag">#2196F3</color>
+    <color name="text_color_context">#666666</color><!-- 字体颜色  标题灰色 -->
+    <color name="bag_gray">#f4f4f4</color>
+    <color name="bag_gray_transparent">#00FFFFFF</color>
 </resources>

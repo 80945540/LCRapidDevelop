@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bag_gray"
+    tools:context="com.xiaochao.lcrapiddevelop.UI.Tab.TabFragment">
+
+    <TextView
+        android:id="@+id/tab_fragment_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#666666"
+        android:textSize="90dp"
+        android:text="0" />
+
+</LinearLayout>

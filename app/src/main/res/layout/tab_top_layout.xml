@@ -1,0 +1,24 @@
+<com.xiaochao.lcrapiddeveloplibrary.SmartTab.SmartTabLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewpagertab"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#FFFFFF"
+
+    app:stl_defaultTabTextColor="@color/custom_tab"
+    app:stl_distributeEvenly="true"
+    app:stl_defaultTabTextHorizontalPadding="5dp"
+    app:stl_indicatorColor="@color/title_bag"
+    app:stl_indicatorCornerRadius="0dp"
+    app:stl_indicatorInterpolation="smart"
+    app:stl_indicatorThickness="3dp"
+    app:stl_defaultTabTextSize="13dp"
+    app:stl_dividerColor="@color/bag_gray"
+    app:stl_dividerThickness="1dp"
+    app:stl_overlineColor="@color/bag_gray"
+    app:stl_underlineColor="#00000000"
+    app:stl_defaultTabBackground="@color/bag_gray_transparent"
+    />
+
+

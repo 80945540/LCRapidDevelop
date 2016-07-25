@@ -29,8 +29,11 @@
         <activity
             android:name=".UI.ListviewGroupingActivity"
             android:label="@string/title_activity_grid_grouping_view" />
-        <activity android:name=".UI.ChatLayoutActivity"
-            android:label="@string/title_activity_list_chat_view"></activity>
+        <activity
+            android:name=".UI.ChatLayoutActivity"
+            android:label="@string/title_activity_list_chat_view" />
+        <activity android:name=".UI.Tab.TabActivity"
+            android:label="@string/title_activity_tab"></activity>
     </application>
 
 </manifest>

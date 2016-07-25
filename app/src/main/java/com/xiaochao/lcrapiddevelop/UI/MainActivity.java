@@ -12,6 +12,7 @@ import android.view.View;
 import com.xiaochao.lcrapiddevelop.Adapter.MainAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Data;
 import com.xiaochao.lcrapiddevelop.R;
+import com.xiaochao.lcrapiddevelop.UI.Tab.TabActivity;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:
                         intent = new Intent(MainActivity.this,ChatLayoutActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(MainActivity.this,TabActivity.class);
                         startActivity(intent);
                         break;
                 }

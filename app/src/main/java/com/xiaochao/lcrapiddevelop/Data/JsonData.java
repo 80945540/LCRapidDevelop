@@ -1,6 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Data;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class JsonData {
         }
     }
     public static void initdate(Context context, final int PageIndex, final int PageSize, final Boolean isJz, final DataInterface dataInterface){
-//        if(MyApplication.getAcache().getAsString("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null&&isJz){
+        if(MyApplication.getAcache().getAsString("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null){
             Map<String,String> map=new HashMap<String,String>();
             map.put("ProvinceIds","");
             map.put("Classify","");
@@ -68,9 +69,19 @@ public class JsonData {
                     dataInterface.onMyError();
                 }
             });
-//        }else{
-//            dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
-//        }
+        }else{
+            if(isJz){
+                //这里必须加上一个线程延时  因为RecyclerView在加载新数据如果View还没有计算完 会报错
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+                    }
+                }, 200);
+            }else{
+                dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+            }
+        }
     }
     public static DataDto<UniversityListDto> httpDate(JSONObject response, Boolean isJz) {
         IsError error = JsonData.josnToObj(response);

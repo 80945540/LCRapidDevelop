@@ -13,7 +13,8 @@
  - RecyclerView设配器
  - RecyclerView item加载动画
  - 页面状态统一管理 加载中  无数据  无网络
- - 图片显示与缓存
+ - 图片显示与缓存 GIF图片显示
+ - Tab+Fragment快速实现
 --------
 
 ##效果图展示
