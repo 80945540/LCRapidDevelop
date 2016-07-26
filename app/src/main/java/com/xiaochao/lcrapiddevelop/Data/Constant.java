@@ -5,6 +5,7 @@ package com.xiaochao.lcrapiddevelop.Data;
  */
 public class Constant {
     public static String DATA_URL="http://123.59.57.18:8018/Colleges/getCollegeList";
+    public static String DATA_VIDEO_URL="http://123.59.57.18:8018/classroom/getHotVideos";
 
     public static String  ERROR_TITLE="网络连接异常";
     public static String  ERROR_CONTEXT="请检查网络后重试";

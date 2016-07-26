@@ -18,6 +18,7 @@ import com.xiaochao.lcrapiddevelop.entity.DataDto;
 import com.xiaochao.lcrapiddevelop.entity.IsError;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
 import com.xiaochao.lcrapiddeveloplibrary.Cache.ACache;
 
 import org.json.JSONArray;
@@ -83,6 +84,34 @@ public class JsonData {
             }
         }
     }
+    public static void initVideoDate(Context context, final int PageIndex, final int PageSize, final Boolean isJz, final DataInterface dataInterface){
+        if(MyApplication.getAcache().getAsString("vidoe_data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize)==null){
+            VolleyReQuest.ReQuestGet_null(context, Constant.DATA_VIDEO_URL+"?pageIndex="+PageIndex+"&pageSize="+PageSize, "video_list_post", new VolleyInterface(VolleyInterface.mLisener, VolleyInterface.mErrorLisener) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    MyApplication.getAcache().put("vidoe_data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize,response, 7*ACache.TIME_DAY);//缓存数据7天
+                    dataInterface.onMySuccess(response);
+                }
+
+                @Override
+                public void onMyError(VolleyError error) {
+                    dataInterface.onMyError();
+                }
+            });
+        }else{
+            if(isJz){
+                //这里必须加上一个线程延时  因为RecyclerView在加载新数据如果View还没有计算完 会报错
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("vidoe_data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+                    }
+                }, 200);
+            }else{
+                dataInterface.onMySuccess(MyApplication.getAcache().getAsJSONObject("vidoe_data_test_PageIndex_"+PageIndex+"_PageSize_"+PageSize));
+            }
+        }
+    }
     public static DataDto<UniversityListDto> httpDate(JSONObject response, Boolean isJz) {
         IsError error = JsonData.josnToObj(response);
         if (error.getCode() == 1) {
@@ -117,6 +146,42 @@ public class JsonData {
             }
         }
         return new DataDto<UniversityListDto>(DATA_ERROR,null);
+
+    }
+    public static DataDto<VideoListDto> httpVideoDate(JSONObject response, Boolean isJz) {
+        IsError error = JsonData.josnToObj(response);
+        if (error.getCode() == 1) {
+            try {
+                JSONArray array1 = response.getJSONArray("Results");
+                Gson gson = new Gson();
+                if (isJz) {
+                    List<VideoListDto> expertLists = gson.fromJson(array1.toString(),
+                            new TypeToken<List<VideoListDto>>() {
+                            }.getType());
+                    if (expertLists.size() == 0) {
+                        return new DataDto<VideoListDto>(DATA_LOAD_NULL,null);
+                    } else {
+                        //新增自动加载的的数据
+                        return new DataDto<VideoListDto>(DATA_LOAD_OK,expertLists);
+                    }
+                } else {
+                    List<VideoListDto> expertLists  = gson.fromJson(array1.toString(),
+                            new TypeToken<List<VideoListDto>>() {
+                            }.getType());
+                    if(expertLists.size()==0) {
+                        //没有找到数据显示
+                        return new DataDto<VideoListDto>(DATA_REFRESH_NULL,null);
+                    }else{
+                        //进入显示的初始数据或者下拉刷新显示的数据
+                        return new DataDto<VideoListDto>(DATA_REFRESH_OK,expertLists);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new DataDto<VideoListDto>(DATA_ERROR,null);
+            }
+        }
+        return new DataDto<VideoListDto>(DATA_ERROR,null);
 
     }
     public static List<MySection> getSampleData(List<UniversityListDto> expertLists,int PageIndex) {

@@ -32,8 +32,10 @@
         <activity
             android:name=".UI.ChatLayoutActivity"
             android:label="@string/title_activity_list_chat_view" />
-        <activity android:name=".UI.Tab.TabActivity"
-            android:label="@string/title_activity_tab"></activity>
+        <activity
+            android:name=".UI.Tab.TabActivity"
+            android:label="@string/title_activity_tab" />
+        <activity android:name=".UI.Video.VideoListActivity"></activity>
     </application>
 
 </manifest>
