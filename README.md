@@ -15,6 +15,7 @@
  - 页面状态统一管理 加载中  无数据  无网络
  - 图片显示与缓存 GIF图片显示
  - Tab+Fragment快速实现
+ - 视频播放(仿QQ空间,秒拍等List播放)
 
 --------
 
@@ -171,3 +172,9 @@
         }
     }
 
+--------
+##特别感谢
+ - [JieCaoVideoPlayer](https://github.com/lipangit/JieCaoVideoPlayer)
+ - [SpringView](https://github.com/liaoinstan/SpringView)
+ - [SmartTabLayout](https://github.com/ogaclejapan/SmartTabLayout)
+ - [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
