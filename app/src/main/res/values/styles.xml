@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppTheme" parent="@style/AppBaseTheme"></style>
     <!-- Base application theme. -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -10,7 +10,15 @@
         <item name="colorAccent">@color/accent</item>
         <item name="colorButtonNormal">@color/accent</item>
     </style>
-
+    <!--首次进入无黑色-->
+    <style name="welcomeTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="19">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/welcome</item>
+    </style>
     <style name="Toolbar" parent="Theme.AppCompat">
         <item name="android:background">@color/primary</item>
         <item name="android:textColorPrimary">#FFF</item>
