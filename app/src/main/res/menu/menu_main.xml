@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".UI.MainActivity" >
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="更多"
-        app:showAsAction="never"/>
+        android:id="@+id/action_share"
+        android:orderInCategory="90"
+        android:title="GITHUB"
+        app:showAsAction="ifRoom"/>
 </menu>

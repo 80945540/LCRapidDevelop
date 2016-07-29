@@ -11,18 +11,17 @@ import android.widget.Toast;
 
 import com.xiaochao.lcrapiddevelop.Adapter.VideoLisViewAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Constant;
-import com.xiaochao.lcrapiddevelop.Data.DataInterface;
-import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.DataDto;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.RxjavaRetrofit.HttpData;
 import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
-import org.json.JSONObject;
+import java.util.List;
+
+import rx.Observer;
 
 public class VideoListActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener{
 
@@ -86,42 +85,39 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
         initdate(PageIndex,false);
     }
     public void initdate(int PageIndex,final Boolean isJz){
-        JsonData.initVideoDate(this, PageIndex,12, isJz, new DataInterface() {
+        HttpData.getInstance().verfacationCodeGetCache(PageIndex, 10, new Observer<List<VideoListDto>>() {
             @Override
-            public JSONObject onMySuccess(JSONObject response) {
-                DataDto<VideoListDto> data= JsonData.httpVideoDate(response,isJz);
-                switch (data.getType()){
-                    case JsonData.DATA_LOAD_OK:
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(data.getT(), true);
-                        break;
-                    case JsonData.DATA_LOAD_NULL:
+            public void onCompleted() {
+            }
+            @Override
+            public void onError(Throwable e) {
+                toError();
+            }
+
+            @Override
+            public void onNext(List<VideoListDto> listHttpResult) {
+                if(isJz){
+                    if(listHttpResult.size()==0){
                         //所有数据加载完成后显示
                         mQuickAdapter.notifyDataChangedAfterLoadMore(false);
                         View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) videolistrvlist.getParent(), false);
                         mQuickAdapter.addFooterView(view);
-                        break;
-                    case JsonData.DATA_REFRESH_OK:
+                    }else{
+                        //新增自动加载的的数据
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(listHttpResult, true);
+                    }
+                }else{
+                    if(listHttpResult.size()==0){
+                        //设置页面为无数据
+                        toEmpty();
+                    }else{
                         //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(data.getT());//新增数据
+                        mQuickAdapter.setNewData(listHttpResult);//新增数据
                         mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
                         videolistspringview.onFinishFreshAndLoad();//刷新完成
                         videolistprogress.showContent();
-                        break;
-                    case JsonData.DATA_REFRESH_NULL:
-                        //设置页面为无数据
-                        toEmpty();
-                        break;
-                    case JsonData.DATA_ERROR:
-                        //设置页面为加载错误
-                        toError();
-                        break;
+                    }
                 }
-                return response;
-            }
-            @Override
-            public void onMyError() {
-                toEmpty();
             }
         });
     }

@@ -10,7 +10,10 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 /**
- * Created by tb on 16/5/3.
+ * glide设置圆形图片
+ * 不需要去添加圆形图片控件
+ * Glide.transform(new GlideCircleTransform(mContext))
+ *也可按照自己的要求修改
  */
 public class GlideCircleTransform extends BitmapTransformation {
 

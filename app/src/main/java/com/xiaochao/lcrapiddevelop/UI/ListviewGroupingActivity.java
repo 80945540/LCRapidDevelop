@@ -6,43 +6,25 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.xiaochao.lcrapiddevelop.Adapter.SectionAdapter;
 import com.xiaochao.lcrapiddevelop.Data.Constant;
-import com.xiaochao.lcrapiddevelop.Data.DataInterface;
 import com.xiaochao.lcrapiddevelop.Data.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.Volley.VolleyInterface;
-import com.xiaochao.lcrapiddevelop.Volley.VolleyReQuest;
-import com.xiaochao.lcrapiddevelop.entity.DataDto;
-import com.xiaochao.lcrapiddevelop.entity.IsError;
+import com.xiaochao.lcrapiddevelop.RxjavaRetrofit.HttpData;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
-import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.DefaultHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.MeituanHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
-import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import rx.Observer;
 
 public class ListviewGroupingActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
     RecyclerView mRecyclerView;
@@ -108,42 +90,42 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         });
     }
     public void initdate(final int PageIndex, final Boolean isJz){
-        JsonData.initdate(this, PageIndex,4, isJz, new DataInterface() {
+        HttpData.getInstance().HttpDataToSchoolList(PageIndex, 4, new Observer<List<UniversityListDto>>() {
             @Override
-            public JSONObject onMySuccess(JSONObject response) {
-                DataDto<UniversityListDto> data=JsonData.httpDate(response,isJz);
-                switch (data.getType()){
-                    case JsonData.DATA_LOAD_OK:
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(data.getT(),PageIndex), true);
-                        break;
-                    case JsonData.DATA_LOAD_NULL:
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //设置页面为加载错误
+                toError();
+            }
+
+            @Override
+            public void onNext(List<UniversityListDto> universityListDtos) {
+                if(isJz){
+                    if(universityListDtos.size()==0){
                         //所有数据加载完成后显示
                         mQuickAdapter.notifyDataChangedAfterLoadMore(false);
                         View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
                         mQuickAdapter.addFooterView(view);
-                        break;
-                    case JsonData.DATA_REFRESH_OK:
+                    }else{
+                        //新增自动加载的的数据
+                        mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(universityListDtos,PageIndex), true);
+                    }
+                }else{
+                    if(universityListDtos.size()==0){
+                        //设置页面为无数据
+                        toEmpty();
+                    }else{
                         //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(JsonData.getSampleData(data.getT(),PageIndex));//新增数据
+                        mQuickAdapter.setNewData(JsonData.getSampleData(universityListDtos,PageIndex));//新增数据
                         mQuickAdapter.openLoadMore(4,true);//设置是否可以下拉加载  以及加载条数
                         swipeLayout.setRefreshing(false);//刷新成功
                         progress.showContent();
-                        break;
-                    case JsonData.DATA_REFRESH_NULL:
-                        //设置页面为无数据
-                        toEmpty();
-                        break;
-                    case JsonData.DATA_ERROR:
-                        //设置页面为加载错误
-                        toError();
-                        break;
+                    }
                 }
-                return response;
-            }
-            @Override
-            public void onMyError() {
-                toError();
             }
         });
     }

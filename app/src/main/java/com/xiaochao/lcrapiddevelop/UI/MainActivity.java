@@ -1,6 +1,7 @@
 package com.xiaochao.lcrapiddevelop.UI;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,12 @@ import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.UI.Tab.TabActivity;
 import com.xiaochao.lcrapiddevelop.UI.Video.VideoListActivity;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
+import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.DefaultHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.MeituanHeader;
+import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
+import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,5 +83,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id){
+            case R.id.action_share:
+                Uri uri = Uri.parse("https://github.com/80945540/LCRapidDevelop");
+                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(it);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
