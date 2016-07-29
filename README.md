@@ -8,7 +8,7 @@
 
 --------
 ##功能说明
- - 网络请求及请求数据缓存
+ - 当前最主流网络请求及请求数据缓存(retrofit rxjava okhttp)
  - 下拉刷新 上拉加载 及自动加载
  - RecyclerView设配器
  - RecyclerView item加载动画
