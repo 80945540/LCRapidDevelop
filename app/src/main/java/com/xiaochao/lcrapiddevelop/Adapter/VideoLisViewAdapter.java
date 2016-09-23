@@ -32,11 +32,13 @@ public class VideoLisViewAdapter extends BaseQuickAdapter<VideoListDto> {
     @Override
     protected void convert(BaseViewHolder helper, VideoListDto item) {
         helper.setText(R.id.video_list_item_text_title,item.getTitle()).setText(R.id.video_list_item_text_context,item.getIntroduction());
+        //Glide加载图片  并且支持gif动图
         Glide.with(mContext)
                 .load(item.getPictureUrl())
                 .crossFade()
                 .placeholder(R.mipmap.def_head)
                 .into((ImageView) helper.getView(R.id.video_list_item_image));
+        //对视频的赋值 添加视频播放地址(使用原地址  .mp4之类的  这个要注意)和标题
         ((JCVideoPlayerStandard)helper.getView(R.id.video_list_item_playr)).setUp(item.getAppVideoUrl(),item.getTitle());
         Glide.with(mContext)
                 .load(item.getPictureUrl())

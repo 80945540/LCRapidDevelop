@@ -40,6 +40,7 @@ public class TabActivity extends AppCompatActivity {
         });
         tab = (ViewGroup) findViewById(R.id.tab);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
+
         tab.addView(LayoutInflater.from(this).inflate(R.layout.tab_top_layout, tab, false));
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);

@@ -63,7 +63,9 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         springView = (SpringView) findViewById(R.id.springview);
+        //设置下拉刷新监听
         springView.setListener(this);
+        //设置下拉刷新样式
         springView.setHeader(new RotationHeader(this));
         //springView.setFooter(new RotationFooter(this));mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
         progress = (ProgressActivity) findViewById(R.id.progress);
@@ -94,6 +96,13 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
                 Toast.makeText(ListvViewActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
             }
         });
+        mQuickAdapter.setOnRecyclerViewItemLongClickListener(new BaseQuickAdapter.OnRecyclerViewItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(View view, int position) {
+                Toast.makeText(ListvViewActivity.this, "长按了"+position, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
    //自动加载
     @Override
@@ -102,13 +111,13 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
         initdate(PageIndex,true);
     }
     public void initdate(int PageIndex,final Boolean isJz){
+        //获取数据 网络请求使用 retrofit rxjava okhttp
         HttpData.getInstance().HttpDataToSchoolList(PageIndex, 12, new Observer<List<UniversityListDto>>() {
             @Override
             public void onCompleted() {
             }
             @Override
             public void onError(Throwable e) {
-                Log.d("ListvViewActivity", "e:" + e);
                 //设置页面为加载错误
                 toError();
             }
@@ -140,6 +149,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
             }
         });
     }
+    //设置加载错误页显示
     public void toError(){
         try {
             mQuickAdapter.notifyDataChangedAfterLoadMore(false);
@@ -156,6 +166,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
             }
         });
     }
+    //设置无数据页显示
     public void toEmpty(){
         progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
@@ -180,12 +191,8 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     private int[] refreshAnimSrcs = new int[]{R.drawable.mt_refreshing01,R.drawable.mt_refreshing02,R.drawable.mt_refreshing03,R.drawable.mt_refreshing04,R.drawable.mt_refreshing05,R.drawable.mt_refreshing06};
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings_AcFun:
                 springView.setType(SpringView.Type.OVERLAP);

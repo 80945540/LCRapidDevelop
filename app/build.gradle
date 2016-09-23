@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.xiaochao.lcrapiddevelop"
-        minSdkVersion 23
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.google.android.gms:play-services-ads:9.4.0'
+    compile 'com.android.support:support-v4:24.2.0'
 }

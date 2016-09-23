@@ -19,6 +19,4 @@ public class Constant {
     public static final long CACHE_STALE_SEC = 60 * 60 * 24 * 1;
     //查询缓存的Cache-Control设置，使用缓存
     public static final String CACHE_CONTROL_CACHE = "max-age=" + CACHE_STALE_SEC;
-    //查询网络的Cache-Control设置。不使用缓存
-    public static final String CACHE_CONTROL_NETWORK = "max-age=0";
 }

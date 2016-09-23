@@ -17,6 +17,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
+    <!--显示头部滑块-->
     <FrameLayout
         android:id="@+id/tab"
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
+    <!--ProgressActivity用于状态页的控制 比如加载中  网络异常  无数据  适合任何页面-->
     <com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity
         xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
         android:id="@+id/progress"
@@ -28,6 +29,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+            <!--SpringView下拉刷新-->
             <com.xiaochao.lcrapiddeveloplibrary.widget.SpringView
                 android:id="@+id/springview"
                 android:layout_width="match_parent"
