@@ -1,6 +1,6 @@
-package com.xiaochao.lcrapiddevelop.RxjavaRetrofit;
+package com.xiaochao.lcrapiddevelop.Data.Retrofit;
 
-import com.xiaochao.lcrapiddevelop.Data.Constant;
+import com.xiaochao.lcrapiddevelop.Constant.Constant;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -24,7 +24,7 @@ public abstract class RetrofitUtils {
         if (null == mRetrofit) {
 
             if (null == mOkHttpClient) {
-                mOkHttpClient = OkHttp3Utils.getOkHttpClient();
+                mOkHttpClient = OkHttpUtils.getOkHttpClient();
             }
 
             //Retrofit2后使用build设计模式

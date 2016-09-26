@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.xiaochao.lcrapiddevelop.Adapter.MultipleItemQuickAdapter;
-import com.xiaochao.lcrapiddevelop.Data.Data;
+import com.xiaochao.lcrapiddevelop.Constant.Data;
 import com.xiaochao.lcrapiddevelop.R;
 
 public class ChatLayoutActivity extends AppCompatActivity {

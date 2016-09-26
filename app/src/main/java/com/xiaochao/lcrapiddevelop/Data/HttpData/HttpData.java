@@ -1,24 +1,41 @@
-package com.xiaochao.lcrapiddevelop.RxjavaRetrofit;
+package com.xiaochao.lcrapiddevelop.Data.HttpData;
 
+import com.xiaochao.lcrapiddevelop.Data.APi.CacheProviders;
+import com.xiaochao.lcrapiddevelop.Data.APi.MovieService;
+import com.xiaochao.lcrapiddevelop.Data.Retrofit.ApiException;
+import com.xiaochao.lcrapiddevelop.Data.Retrofit.RetrofitUtils;
+import com.xiaochao.lcrapiddevelop.Util.FileUtil;
 import com.xiaochao.lcrapiddevelop.entity.Body.SchoolBody;
 import com.xiaochao.lcrapiddevelop.entity.HttpResult;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
 
+import java.io.File;
 import java.util.List;
 
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.Reply;
+import io.rx_cache.internal.RxCache;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+
 /*
  *所有的请求数据的方法集中地
  * 根据MovieService的定义编写合适的方法
  */
 public class HttpData extends RetrofitUtils {
 
+    private static File cacheDirectory = FileUtil.getcacheDirectory();
+    private static final CacheProviders providers = new RxCache.Builder()
+            .persistence(cacheDirectory)
+            .using(CacheProviders.class);
+
     protected static final MovieService service = getRetrofit().create(MovieService.class);
+
 
     //在访问HttpMethods时创建单例
     private static class SingletonHolder{
@@ -33,13 +50,15 @@ public class HttpData extends RetrofitUtils {
     //Get请求  视频列表
     public void verfacationCodeGetCache(int pageIndex, int pageSize,Observer<List<VideoListDto>> observer) {
         Observable observable=service.getVideoList(pageIndex, pageSize).map(new HttpResultFunc<List<VideoListDto>>());
-        setSubscribe(observable,observer);
+        Observable observableCahce=providers.getVideoList(observable,new DynamicKey("视频列表"+pageIndex+pageSize),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<VideoListDto>>());
+        setSubscribe(observableCahce,observer);
     }
 
     //post请求 学校列表
     public void HttpDataToSchoolList(int pageIndex, int pageSize,Observer<List<UniversityListDto>> observer){
         Observable observable=service.getSchoolList(new SchoolBody("","","","",pageIndex,pageSize)).map(new HttpResultFunc<List<UniversityListDto>>());
-        setSubscribe(observable,observer);
+        Observable observableCahce=providers.getVideoList(observable,new DynamicKey("学校列表"+pageIndex+pageSize),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<UniversityListDto>>());
+        setSubscribe(observableCahce,observer);
     }
 
     /**
@@ -72,5 +91,14 @@ public class HttpData extends RetrofitUtils {
             return httpResult.getResults();
         }
     }
+    /**
+     * 用来统一处理RxCacha的结果
+     */
+    private  class HttpResultFuncCcche<T> implements Func1<Reply<T>, T> {
 
+        @Override
+        public T call(Reply<T> httpResult) {
+            return httpResult.getData();
+        }
+    }
 }

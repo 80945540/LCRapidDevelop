@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.Data;
+package com.xiaochao.lcrapiddevelop.Constant;
 
 import com.xiaochao.lcrapiddevelop.entity.ChatDto;
 import com.xiaochao.lcrapiddevelop.entity.MainDateDto;

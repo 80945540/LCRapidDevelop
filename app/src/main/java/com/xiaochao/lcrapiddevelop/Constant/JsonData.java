@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.Data;
+package com.xiaochao.lcrapiddevelop.Constant;
 
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;

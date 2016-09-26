@@ -1,4 +1,5 @@
-package com.xiaochao.lcrapiddevelop.RxjavaRetrofit;
+package com.xiaochao.lcrapiddevelop.Data.Retrofit;
+
 
 import com.xiaochao.lcrapiddevelop.entity.HttpResult;
 
@@ -10,7 +11,6 @@ import com.xiaochao.lcrapiddevelop.entity.HttpResult;
  * 邮箱80945540@qq.com
  */
 public class ApiException extends RuntimeException {
-
 
 
     public ApiException(HttpResult httpResult) {

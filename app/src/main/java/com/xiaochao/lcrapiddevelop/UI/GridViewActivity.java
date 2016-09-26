@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.xiaochao.lcrapiddevelop.Adapter.ListViewAdapter;
-import com.xiaochao.lcrapiddevelop.Data.Constant;
+import com.xiaochao.lcrapiddevelop.Constant.Constant;
+import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.RxjavaRetrofit.HttpData;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;

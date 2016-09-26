@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.entity.ChatDto;
-import com.xiaochao.lcrapiddevelop.transform.GlideCircleTransform;
 import com.xiaochao.lcrapiddeveloplibrary.BaseMultiItemQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
 

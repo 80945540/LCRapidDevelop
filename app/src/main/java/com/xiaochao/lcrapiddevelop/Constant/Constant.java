@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.Data;
+package com.xiaochao.lcrapiddevelop.Constant;
 
 /**
  * Created by Administrator on 2016/7/1.

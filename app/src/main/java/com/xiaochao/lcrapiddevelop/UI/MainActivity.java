@@ -11,17 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.xiaochao.lcrapiddevelop.Adapter.MainAdapter;
-import com.xiaochao.lcrapiddevelop.Data.Data;
+import com.xiaochao.lcrapiddevelop.Constant.Data;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.UI.Tab.TabActivity;
 import com.xiaochao.lcrapiddevelop.UI.Video.VideoListActivity;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
-import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.DefaultHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.MeituanHeader;
-import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
-import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 public class MainActivity extends AppCompatActivity {
 

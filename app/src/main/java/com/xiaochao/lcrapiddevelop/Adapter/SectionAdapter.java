@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.entity.MySection;
 import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
-import com.xiaochao.lcrapiddevelop.transform.GlideCircleTransform;
+import com.xiaochao.lcrapiddevelop.Transform.GlideCircleTransform;
 import com.xiaochao.lcrapiddeveloplibrary.BaseSectionQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
 
