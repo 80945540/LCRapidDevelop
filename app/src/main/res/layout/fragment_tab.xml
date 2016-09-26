@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bag_gray"
-    tools:context="com.xiaochao.lcrapiddevelop.UI.Tab.TabFragment">
+    tools:context=".UI.Tab.TabFragment">
 
     <TextView
         android:id="@+id/tab_fragment_textview"

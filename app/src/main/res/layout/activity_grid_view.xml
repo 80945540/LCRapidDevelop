@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.xiaochao.lcrapiddevelop.UI.GridViewActivity">
+    tools:context=".UI.GridView.GridViewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.UI;
+package com.xiaochao.lcrapiddevelop.UI.ListvView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xiaochao.lcrapiddevelop.Adapter.ListViewAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
-import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.Adapter.ListViewAdapter;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
 import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
@@ -27,9 +28,7 @@ import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 import java.util.List;
 
-import rx.Observer;
-
-public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener {
+public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener,SchoolListView {
 
     RecyclerView mRecyclerView;
     ProgressActivity progress;
@@ -37,6 +36,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     private BaseQuickAdapter mQuickAdapter;
     private int PageIndex=1;
     private SpringView springView;
+    private SchoolListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     }
 
     private void initView() {
+        present = new SchoolListPresent(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         springView = (SpringView) findViewById(R.id.springview);
         //设置下拉刷新监听
@@ -83,7 +84,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
         //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
         //请求网络数据
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,12,false);
     }
     private void initListener() {
         //设置自动加载监听
@@ -107,79 +108,76 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        initdate(PageIndex,true);
-    }
-    public void initdate(int PageIndex,final Boolean isJz){
-        //获取数据 网络请求使用 retrofit rxjava okhttp
-        HttpData.getInstance().HttpDataToSchoolList(PageIndex, 12, new Observer<List<UniversityListDto>>() {
-            @Override
-            public void onCompleted() {
-            }
-            @Override
-            public void onError(Throwable e) {
-                //设置页面为加载错误
-                toError();
-            }
-
-            @Override
-            public void onNext(List<UniversityListDto> universityListDtos) {
-                if(isJz){
-                    if(universityListDtos.size()==0){
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    }else{
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(universityListDtos, true);
-                    }
-                }else{
-                    if(universityListDtos.size()==0){
-                        //设置页面为无数据
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(universityListDtos);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        springView.onFinishFreshAndLoad();//刷新完成
-                        progress.showContent();
-                    }
-                }
-            }
-        });
-    }
-    //设置加载错误页显示
-    public void toError(){
-        try {
-            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-            mQuickAdapter.addFooterView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progress.showLoading();
-                initdate(1,false);
-            }
-        });
-    }
-    //设置无数据页显示
-    public void toEmpty(){
-        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        present.LoadData(PageIndex,12,true);
     }
     //下拉刷新
     @Override
     public void onRefresh() {
         PageIndex=1;
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,12,false);
     }
     //上啦加载  mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
     @Override
     public void onLoadmore() {
 
     }
+    /*
+    * MVP模式的相关状态
+    *
+    * */
+    @Override
+    public void showProgress() {
+        progress.showLoading();
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.showContent();
+    }
+
+    @Override
+    public void newDatas(List<UniversityListDto> newsList) {
+        //进入显示的初始数据或者下拉刷新显示的数据
+        mQuickAdapter.setNewData(newsList);//新增数据
+        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+        springView.onFinishFreshAndLoad();//刷新完成
+    }
+
+    @Override
+    public void addDatas(List<UniversityListDto> addList) {
+        //新增自动加载的的数据
+        mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
+    }
+
+    @Override
+    public void showLoadFailMsg() {
+        //设置加载错误页显示
+        progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PageIndex=1;
+                present.LoadData(PageIndex,12,false);
+            }
+        });
+    }
+
+    @Override
+    public void showLoadCompleteAllData() {
+        //所有数据加载完成后显示
+        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        mQuickAdapter.addFooterView(view);
+    }
+
+    @Override
+    public void showNoData() {
+        //设置无数据显示页面
+        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+    }
+
+    /*
+    * 菜单栏 修改器下拉刷新模式
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

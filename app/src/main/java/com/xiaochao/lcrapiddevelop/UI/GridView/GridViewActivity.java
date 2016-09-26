@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.UI;
+package com.xiaochao.lcrapiddevelop.UI.GridView;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,19 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xiaochao.lcrapiddevelop.Adapter.ListViewAdapter;
+import com.xiaochao.lcrapiddevelop.UI.Adapter.ListViewAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
-import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 
 import java.util.List;
 
-import rx.Observer;
-
-public class GridViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener{
+public class GridViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,SchoolListView{
 
     RecyclerView mRecyclerView;
     SwipeRefreshLayout swipeLayout;
@@ -30,6 +29,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     private Toolbar toolbar;
     private BaseQuickAdapter mQuickAdapter;
     private int PageIndex=1;
+    private SchoolListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,6 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void intiListener() {
-
         swipeLayout.setOnRefreshListener(this);
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
@@ -68,6 +67,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void initView() {
+        present = new SchoolListPresent(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         progress = (ProgressActivity) findViewById(R.id.progress);
@@ -79,77 +79,69 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.openLoadMore(6,true);
         mRecyclerView.setAdapter(mQuickAdapter);
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,10,false);
     }
 
     @Override
     public void onRefresh() {
         PageIndex=1;
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,10,false);
     }
 
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        initdate(PageIndex,true);
+        present.LoadData(PageIndex,10,true);
     }
-    public void initdate(int PageIndex,final Boolean isJz){
-        HttpData.getInstance().HttpDataToSchoolList(PageIndex, 10, new Observer<List<UniversityListDto>>() {
-            @Override
-            public void onCompleted() {
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                //设置页面为加载错误
-                toError();
-            }
-
-            @Override
-            public void onNext(List<UniversityListDto> universityListDtos) {
-                if(isJz){
-                    if(universityListDtos.size()==0){
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    }else{
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(universityListDtos, true);
-                    }
-                }else{
-                    if(universityListDtos.size()==0){
-                        //设置页面为无数据
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(universityListDtos);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        swipeLayout.setRefreshing(false);//刷新成功
-                        progress.showContent();
-                    }
-                }
-            }
-        });
+    /*
+    * MVP状态
+    * */
+    @Override
+    public void showProgress() {
+        progress.showLoading();
     }
-    public void toError(){
-        try {
-            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-            mQuickAdapter.addFooterView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    @Override
+    public void hideProgress() {
+        progress.showContent();
+    }
+
+    @Override
+    public void newDatas(List<UniversityListDto> newsList) {
+        //进入显示的初始数据或者下拉刷新显示的数据
+        mQuickAdapter.setNewData(newsList);//新增数据
+        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+        swipeLayout.setRefreshing(false);//刷新成功
+    }
+
+    @Override
+    public void addDatas(List<UniversityListDto> addList) {
+        mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
+    }
+
+    @Override
+    public void showLoadFailMsg() {
         progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progress.showLoading();
-                initdate(1,false);
+                PageIndex=1;
+                present.LoadData(PageIndex,10,false);
             }
         });
     }
-    public void toEmpty(){
+
+    @Override
+    public void showLoadCompleteAllData() {
+        //所有数据加载完成后显示
+        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        mQuickAdapter.addFooterView(view);
+    }
+
+    @Override
+    public void showNoData() {
         progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 }

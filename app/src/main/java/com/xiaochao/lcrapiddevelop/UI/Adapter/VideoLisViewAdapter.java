@@ -1,11 +1,11 @@
-package com.xiaochao.lcrapiddevelop.Adapter;
+package com.xiaochao.lcrapiddevelop.UI.Adapter;
 
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
 import com.xiaochao.lcrapiddeveloplibrary.Video.JCVideoPlayerStandard;

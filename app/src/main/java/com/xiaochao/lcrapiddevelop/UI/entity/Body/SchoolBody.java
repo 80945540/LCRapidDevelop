@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.entity.Body;
+package com.xiaochao.lcrapiddevelop.UI.entity.Body;
 
 /**
  * Created by Administrator on 2016/7/29.

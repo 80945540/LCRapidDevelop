@@ -1,11 +1,11 @@
-package com.xiaochao.lcrapiddevelop.Adapter;
+package com.xiaochao.lcrapiddevelop.UI.Adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.ChatDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.ChatDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseMultiItemQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
 

@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.entity;
+package com.xiaochao.lcrapiddevelop.UI.entity;
 
 import com.xiaochao.lcrapiddeveloplibrary.entity.SectionEntity;
 

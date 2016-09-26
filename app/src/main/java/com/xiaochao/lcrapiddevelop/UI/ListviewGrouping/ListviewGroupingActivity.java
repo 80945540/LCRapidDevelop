@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.UI;
+package com.xiaochao.lcrapiddevelop.UI.ListviewGrouping;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,27 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xiaochao.lcrapiddevelop.Adapter.SectionAdapter;
+import com.xiaochao.lcrapiddevelop.UI.Adapter.SectionAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
 import com.xiaochao.lcrapiddevelop.Constant.JsonData;
-import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.MySection;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.MySection;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 
 import java.util.List;
 
-import rx.Observer;
-
-public class ListviewGroupingActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
+public class ListviewGroupingActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,SchoolListView {
     RecyclerView mRecyclerView;
     ProgressActivity progress;
     SwipeRefreshLayout swipeLayout;
     private Toolbar toolbar;
     private SectionAdapter mQuickAdapter;
     private int PageIndex=1;
+    private SchoolListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +52,19 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     }
 
     private void initView() {
+        present = new SchoolListPresent(this);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         progress = (ProgressActivity) findViewById(R.id.progress);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
-        progress.showLoading();
         mQuickAdapter = new SectionAdapter(R.layout.list_view_item_layout,R.layout.def_section_head,null);
-//        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.openLoadMore(4,true);
         mRecyclerView.setAdapter(mQuickAdapter);
-        initdate(PageIndex,false);
 
+        present.LoadData(PageIndex,4,false);
     }
     private void initListener() {
         swipeLayout.setOnRefreshListener(this);
@@ -89,92 +89,31 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
             }
         });
     }
-    public void initdate(final int PageIndex, final Boolean isJz){
-        HttpData.getInstance().HttpDataToSchoolList(PageIndex, 4, new Observer<List<UniversityListDto>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                //设置页面为加载错误
-                toError();
-            }
-
-            @Override
-            public void onNext(List<UniversityListDto> universityListDtos) {
-                if(isJz){
-                    if(universityListDtos.size()==0){
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    }else{
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(universityListDtos,PageIndex), true);
-                    }
-                }else{
-                    if(universityListDtos.size()==0){
-                        //设置页面为无数据
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(JsonData.getSampleData(universityListDtos,PageIndex));//新增数据
-                        mQuickAdapter.openLoadMore(4,true);//设置是否可以下拉加载  以及加载条数
-                        swipeLayout.setRefreshing(false);//刷新成功
-                        progress.showContent();
-                    }
-                }
-            }
-        });
-    }
-    public void toError(){
-        try {
-            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-            mQuickAdapter.addFooterView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progress.showLoading();
-                initdate(1,false);
-            }
-        });
-    }
-    public void toEmpty(){
-        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
-    }
-
     //下拉刷新
     @Override
     public void onRefresh() {
         PageIndex=1;
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,4,false);
     }
     //自动加载
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        initdate(PageIndex,true);
+        present.LoadData(PageIndex,4,true);
     }
+
+    /*
+    * 加载动画切换的状态栏代码
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list_grouping, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings_AlphaIn:
                 mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
@@ -203,5 +142,58 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    /*
+    * MVP相关状态
+    * */
+    @Override
+    public void showProgress() {
+        progress.showLoading();
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.showContent();
+    }
+
+    @Override
+    public void newDatas(List<UniversityListDto> newsList) {
+        //进入显示的初始数据或者下拉刷新显示的数据
+        mQuickAdapter.setNewData(JsonData.getSampleData(newsList,PageIndex));//新增数据
+        mQuickAdapter.openLoadMore(4,true);//设置是否可以下拉加载  以及加载条数
+        swipeLayout.setRefreshing(false);//刷新成功
+    }
+
+    @Override
+    public void addDatas(List<UniversityListDto> addList) {
+        mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(addList,PageIndex), true);
+    }
+
+    @Override
+    public void showLoadFailMsg() {
+        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+    }
+
+    @Override
+    public void showLoadCompleteAllData() {
+        //所有数据加载完成后显示
+        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        mQuickAdapter.addFooterView(view);
+    }
+
+    @Override
+    public void showNoData() {
+        progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress.showLoading();
+                PageIndex=1;
+                present.LoadData(PageIndex,4,false);
+            }
+        });
     }
 }

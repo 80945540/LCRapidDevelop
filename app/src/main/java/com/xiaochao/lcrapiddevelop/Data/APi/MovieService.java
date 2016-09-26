@@ -1,9 +1,9 @@
 package com.xiaochao.lcrapiddevelop.Data.APi;
 
-import com.xiaochao.lcrapiddevelop.entity.Body.SchoolBody;
-import com.xiaochao.lcrapiddevelop.entity.HttpResult;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
-import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.Body.SchoolBody;
+import com.xiaochao.lcrapiddevelop.UI.entity.HttpResult;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.util.List;
 

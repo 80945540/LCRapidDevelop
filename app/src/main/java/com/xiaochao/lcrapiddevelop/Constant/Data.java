@@ -1,7 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Constant;
 
-import com.xiaochao.lcrapiddevelop.entity.ChatDto;
-import com.xiaochao.lcrapiddevelop.entity.MainDateDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.ChatDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.MainDateDto;
 
 import java.util.ArrayList;
 import java.util.List;

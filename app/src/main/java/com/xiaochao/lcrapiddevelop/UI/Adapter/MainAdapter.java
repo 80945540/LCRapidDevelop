@@ -1,11 +1,11 @@
-package com.xiaochao.lcrapiddevelop.Adapter;
+package com.xiaochao.lcrapiddevelop.UI.Adapter;
 
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.MainDateDto;
-import com.xiaochao.lcrapiddevelop.Transform.GlideCircleTransform;
+import com.xiaochao.lcrapiddevelop.UI.entity.MainDateDto;
+import com.xiaochao.lcrapiddevelop.Util.GlideCircleTransform;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
 

@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xiaochao.lcrapiddevelop.Adapter.VideoLisViewAdapter;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.VideoListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.VideoListView;
+import com.xiaochao.lcrapiddevelop.UI.Adapter.VideoLisViewAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
 import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
@@ -23,7 +25,7 @@ import java.util.List;
 
 import rx.Observer;
 
-public class VideoListActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener{
+public class VideoListActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener,VideoListView{
 
     Toolbar videolisttoolbar;
     RecyclerView videolistrvlist;
@@ -31,6 +33,8 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
     ProgressActivity videolistprogress;
     private VideoLisViewAdapter mQuickAdapter;
     private int PageIndex=1;
+    private VideoListPresent present;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,7 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
 
     }
     private void init() {
+        present = new VideoListPresent(this);
         videolistspringview.setListener(this);
         videolistspringview.setHeader(new RotationHeader(this));
         //springView.setFooter(new RotationFooter(this));mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
@@ -82,68 +87,12 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
             }
         });
         //请求网络数据
-        initdate(PageIndex,false);
-    }
-    public void initdate(int PageIndex,final Boolean isJz){
-        HttpData.getInstance().verfacationCodeGetCache(PageIndex, 10, new Observer<List<VideoListDto>>() {
-            @Override
-            public void onCompleted() {
-            }
-            @Override
-            public void onError(Throwable e) {
-                toError();
-            }
-
-            @Override
-            public void onNext(List<VideoListDto> listHttpResult) {
-                if(isJz){
-                    if(listHttpResult.size()==0){
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) videolistrvlist.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    }else{
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(listHttpResult, true);
-                    }
-                }else{
-                    if(listHttpResult.size()==0){
-                        //设置页面为无数据
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(listHttpResult);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        videolistspringview.onFinishFreshAndLoad();//刷新完成
-                        videolistprogress.showContent();
-                    }
-                }
-            }
-        });
-    }
-    public void toError(){
-        try {
-            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) videolistrvlist.getParent(), false);
-            mQuickAdapter.addFooterView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        videolistprogress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                videolistprogress.showLoading();
-                initdate(1,false);
-            }
-        });
-    }
-    public void toEmpty(){
-        videolistprogress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        present.LoadData(PageIndex,10,false);
     }
     @Override
     public void onRefresh() {
         PageIndex=1;
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,10,false);
     }
 
     @Override
@@ -154,6 +103,57 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        initdate(PageIndex,true);
+        present.LoadData(PageIndex,10,true);
+    }
+    /*
+    * MVP状态
+    * */
+    @Override
+    public void showProgress() {
+        videolistprogress.showLoading();
+    }
+
+    @Override
+    public void hideProgress() {
+        videolistprogress.showContent();
+    }
+
+    @Override
+    public void newDatas(List<VideoListDto> newsList) {
+        //进入显示的初始数据或者下拉刷新显示的数据
+        mQuickAdapter.setNewData(newsList);//新增数据
+        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+        videolistspringview.onFinishFreshAndLoad();//刷新完成
+    }
+
+    @Override
+    public void addDatas(List<VideoListDto> addList) {
+        //新增自动加载的的数据
+        mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
+    }
+
+    @Override
+    public void showLoadFailMsg() {
+        videolistprogress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videolistprogress.showLoading();
+                PageIndex=1;
+                present.LoadData(PageIndex,10,false);
+            }
+        });
+    }
+
+    @Override
+    public void showLoadCompleteAllData() {
+        //所有数据加载完成后显示
+        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) videolistrvlist.getParent(), false);
+        mQuickAdapter.addFooterView(view);
+    }
+
+    @Override
+    public void showNoData() {
+        videolistprogress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 }

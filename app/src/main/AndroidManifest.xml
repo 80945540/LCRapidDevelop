@@ -14,18 +14,18 @@
         <activity android:name=".UI.MainActivity">
         </activity>
         <activity
-            android:name=".UI.ListvViewActivity"
+            android:name=".UI.ListvView.ListvViewActivity"
             android:label="@string/title_activity_listv_view"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".UI.GridViewActivity"
+            android:name=".UI.GridView.GridViewActivity"
             android:label="@string/title_activity_grid_view"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".UI.ListviewGroupingActivity"
+            android:name=".UI.ListviewGrouping.ListviewGroupingActivity"
             android:label="@string/title_activity_grid_grouping_view" />
         <activity
-            android:name=".UI.ChatLayoutActivity"
+            android:name=".UI.ChatLayout.ChatLayoutActivity"
             android:label="@string/title_activity_list_chat_view" />
         <activity
             android:name=".UI.Tab.TabActivity"

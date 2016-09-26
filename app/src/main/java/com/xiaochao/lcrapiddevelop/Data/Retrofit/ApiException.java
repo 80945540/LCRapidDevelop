@@ -1,7 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Data.Retrofit;
 
 
-import com.xiaochao.lcrapiddevelop.entity.HttpResult;
+import com.xiaochao.lcrapiddevelop.UI.entity.HttpResult;
 
 /**
  * 异常类

@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.UI;
+package com.xiaochao.lcrapiddevelop.UI.ChatLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.xiaochao.lcrapiddevelop.Adapter.MultipleItemQuickAdapter;
+import com.xiaochao.lcrapiddevelop.UI.Adapter.MultipleItemQuickAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Data;
 import com.xiaochao.lcrapiddevelop.R;
 

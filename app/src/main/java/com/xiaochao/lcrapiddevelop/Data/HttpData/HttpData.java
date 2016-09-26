@@ -5,10 +5,10 @@ import com.xiaochao.lcrapiddevelop.Data.APi.MovieService;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.ApiException;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.RetrofitUtils;
 import com.xiaochao.lcrapiddevelop.Util.FileUtil;
-import com.xiaochao.lcrapiddevelop.entity.Body.SchoolBody;
-import com.xiaochao.lcrapiddevelop.entity.HttpResult;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
-import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.Body.SchoolBody;
+import com.xiaochao.lcrapiddevelop.UI.entity.HttpResult;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.io.File;
 import java.util.List;

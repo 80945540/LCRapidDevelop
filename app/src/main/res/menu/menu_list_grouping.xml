@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".UI.ListviewGroupingActivity" >
+    tools:context=".UI.ListviewGrouping.ListviewGroupingActivity" >
     <item
         android:id="@+id/action_settings_AlphaIn"
         android:orderInCategory="100"

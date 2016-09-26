@@ -1,7 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Constant;
 
-import com.xiaochao.lcrapiddevelop.entity.MySection;
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.MySection;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 
 import java.util.ArrayList;
 import java.util.List;

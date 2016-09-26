@@ -1,7 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Data.APi;
 
-import com.xiaochao.lcrapiddevelop.entity.UniversityListDto;
-import com.xiaochao.lcrapiddevelop.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

@@ -1,4 +1,4 @@
-package com.xiaochao.lcrapiddevelop.entity;
+package com.xiaochao.lcrapiddevelop.UI.entity;
 
 /**
  * Created by liukun on 16/3/5.
