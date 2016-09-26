@@ -9,11 +9,11 @@
 
 --------
 ##功能说明
- - retrofit rxjava okhttp rxcache-----------------------网络请求以及网络缓存
- - Demo采用MVP模式开发-----------------------------数据逻辑复用,便于维护升级
- - 下拉刷新 上拉加载 及自动加载------------------------实现监听方便快捷
- - RecyclerView设配器-----------------------------再也不需要写ViewHolder
- - RecyclerView item加载动画------------------------多种动画效果一行代码解决
+ - retrofit rxjava okhttp rxcache------------------------------网络请求以及网络缓存
+ - Demo采用MVP模式开发------------------------------------数据逻辑复用,便于维护升级
+ - 下拉刷新 上拉加载 及自动加载---------------------------实现监听方便快捷
+ - RecyclerView设配器------------------------------------------再也不需要写ViewHolder
+ - RecyclerView item加载动画--------------------------------多种动画效果一行代码解决
  - 页面状态统一管理 加载中  无数据  无网络-------------所有页面均可添加
  - 图片显示与缓存 GIF图片显示
  - Tab+Fragment快速实现
@@ -69,9 +69,9 @@
     </LinearLayout>
 </com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity>
 ```
-然后就是Activity里面的编写了 这个例子里面没有使用MVP模式编写感兴趣的看我最新写的[Freebook](https://github.com/80945540/FreeBook)
+然后就是Activity里面的编写了 这个例子里使用MVP模式编写感兴趣的看我最新写的[Freebook](https://github.com/80945540/FreeBook)
 ```
-public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener {
+public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener,SchoolListView {
 
     RecyclerView mRecyclerView;
     ProgressActivity progress;
@@ -79,15 +79,18 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     private BaseQuickAdapter mQuickAdapter;
     private int PageIndex=1;
     private SpringView springView;
+    private SchoolListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listv_view);
         initView();
-        initListener();
     }
+
+
     private void initView() {
+        present = new SchoolListPresent(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         springView = (SpringView) findViewById(R.id.springview);
         //设置下拉刷新监听
@@ -110,89 +113,77 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
         mQuickAdapter.openLoadMore(6,true);
         //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
-        //设置自动加载监听
+         //设置自动加载监听
         mQuickAdapter.setOnLoadMoreListener(this);
         //请求网络数据
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,12,false);
     }
    //自动加载
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        initdate(PageIndex,true);
+        present.LoadData(PageIndex,12,true);
     }
-    public void initdate(int PageIndex,final Boolean isJz){
-        //获取数据 网络请求使用 retrofit rxjava okhttp
-        HttpData.getInstance().HttpDataToSchoolList(PageIndex, 12, new Observer<List<UniversityListDto>>() {
-            @Override
-            public void onCompleted() {
-            }
-            @Override
-            public void onError(Throwable e) {
-                //设置页面为加载错误
-                toError();
-            }
-
-            @Override
-            public void onNext(List<UniversityListDto> universityListDtos) {
-                if(isJz){
-                    if(universityListDtos.size()==0){
-                        //所有数据加载完成后显示
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-                        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-                        mQuickAdapter.addFooterView(view);
-                    }else{
-                        //新增自动加载的的数据
-                        mQuickAdapter.notifyDataChangedAfterLoadMore(universityListDtos, true);
-                    }
-                }else{
-                    if(universityListDtos.size()==0){
-                        //设置页面为无数据
-                        toEmpty();
-                    }else{
-                        //进入显示的初始数据或者下拉刷新显示的数据
-                        mQuickAdapter.setNewData(universityListDtos);//新增数据
-                        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
-                        springView.onFinishFreshAndLoad();//刷新完成
-                        progress.showContent();
-                    }
-                }
-            }
-        });
-    }
-     //下拉刷新
+    //下拉刷新
     @Override
     public void onRefresh() {
         PageIndex=1;
-        initdate(PageIndex,false);
+        present.LoadData(PageIndex,12,false);
     }
-    //上啦加载  mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
+  
+    /*
+    * MVP模式的相关状态
+    *
+    * */
     @Override
-    public void onLoadmore() {
-
+    public void showProgress() {
+        progress.showLoading();
     }
-    //设置加载错误页显示
-    public void toError(){
-        try {
-            mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-            View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
-            mQuickAdapter.addFooterView(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    @Override
+    public void hideProgress() {
+        progress.showContent();
+    }
+
+    @Override
+    public void newDatas(List<UniversityListDto> newsList) {
+        //进入显示的初始数据或者下拉刷新显示的数据
+        mQuickAdapter.setNewData(newsList);//新增数据
+        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+        springView.onFinishFreshAndLoad();//刷新完成
+    }
+
+    @Override
+    public void addDatas(List<UniversityListDto> addList) {
+        //新增自动加载的的数据
+        mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
+    }
+
+    @Override
+    public void showLoadFailMsg() {
+        //设置加载错误页显示
         progress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress.showLoading();
-                initdate(1,false);
+                PageIndex=1;
+                present.LoadData(PageIndex,12,false);
             }
         });
     }
-    //设置无数据页显示
-    public void toEmpty(){
+
+    @Override
+    public void showLoadCompleteAllData() {
+        //所有数据加载完成后显示
+        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
+        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+        mQuickAdapter.addFooterView(view);
+    }
+
+    @Override
+    public void showNoData() {
+        //设置无数据显示页面
         progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
-  
 }
 ```
 ##轻松实现视频列表播放 
