@@ -9,11 +9,12 @@
 
 --------
 ##功能说明
- - 当前最主流网络请求及请求数据缓存(retrofit rxjava okhttp)
- - 下拉刷新 上拉加载 及自动加载
- - RecyclerView设配器
- - RecyclerView item加载动画
- - 页面状态统一管理 加载中  无数据  无网络
+ - retrofit rxjava okhttp rxcache-----------------------网络请求以及网络缓存
+ - Demo采用MVP模式开发-----------------------------数据逻辑复用,便于维护升级
+ - 下拉刷新 上拉加载 及自动加载------------------------实现监听方便快捷
+ - RecyclerView设配器-----------------------------再也不需要写ViewHolder
+ - RecyclerView item加载动画------------------------多种动画效果一行代码解决
+ - 页面状态统一管理 加载中  无数据  无网络-------------所有页面均可添加
  - 图片显示与缓存 GIF图片显示
  - Tab+Fragment快速实现
  - 视频播放(仿QQ空间,秒拍等List播放)
@@ -347,7 +348,7 @@ public class VideoLisViewAdapter extends BaseQuickAdapter<VideoListDto> {
 
 |attr|描述|
 |:--|:-------|
-| stl_indicatorAlwaysInCenter	| 如果设置为真,有源标签总是显示在中心(如报摊google app),默认的错误| 
+| stl_indicatorAlwaysInCenter    | 如果设置为真,有源标签总是显示在中心(如报摊google app),默认的错误| 
 | stl_indicatorWithoutPadding	| 如果设置为true,画的指标没有填充选项卡中,默认的错误| 
 | stl_indicatorInFront	| 画前的指示器下划线,默认的错误| 
 | stl_indicatorInterpolation	| 行为的指标:“线性”或“智能”| 
