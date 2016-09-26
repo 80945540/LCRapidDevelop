@@ -18,6 +18,7 @@ import com.xiaochao.lcrapiddevelop.UI.GridView.GridViewActivity;
 import com.xiaochao.lcrapiddevelop.UI.ListvView.ListvViewActivity;
 import com.xiaochao.lcrapiddevelop.UI.ListviewGrouping.ListviewGroupingActivity;
 import com.xiaochao.lcrapiddevelop.UI.Tab.TabActivity;
+import com.xiaochao.lcrapiddevelop.UI.TypePage.TypePageActivity;
 import com.xiaochao.lcrapiddevelop.UI.Video.VideoListActivity;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 
@@ -55,26 +56,30 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 switch (position){
                     case 0:
-                        intent = new Intent(MainActivity.this,ListvViewActivity.class);
+                        intent = new Intent(MainActivity.this,TypePageActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(MainActivity.this,ListviewGroupingActivity.class);
+                        intent = new Intent(MainActivity.this,ListvViewActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(MainActivity.this,GridViewActivity.class);
+                        intent = new Intent(MainActivity.this,ListviewGroupingActivity.class);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(MainActivity.this,ChatLayoutActivity.class);
+                        intent = new Intent(MainActivity.this,GridViewActivity.class);
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(MainActivity.this,TabActivity.class);
+                        intent = new Intent(MainActivity.this,ChatLayoutActivity.class);
                         startActivity(intent);
                         break;
                     case 5:
+                        intent = new Intent(MainActivity.this,TabActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 6:
                         intent = new Intent(MainActivity.this,VideoListActivity.class);
                         startActivity(intent);
                         break;

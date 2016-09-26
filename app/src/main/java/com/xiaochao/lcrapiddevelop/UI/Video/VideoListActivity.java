@@ -154,6 +154,6 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
 
     @Override
     public void showNoData() {
-        videolistprogress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        videolistprogress.showEmpty(getResources().getDrawable(R.mipmap.monkey_nodata),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 }

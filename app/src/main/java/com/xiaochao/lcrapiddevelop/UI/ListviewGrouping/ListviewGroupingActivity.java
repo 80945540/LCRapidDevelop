@@ -174,7 +174,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
 
     @Override
     public void showLoadFailMsg() {
-        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_nodata),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 
     @Override

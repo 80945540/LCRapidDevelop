@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UI.ListvView.ListvViewActivity" >
+    <item
+        android:id="@+id/action_type_loding"
+        android:orderInCategory="100"
+        android:title="加载中"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_type_data"
+        android:orderInCategory="100"
+        android:title="数据页面"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_type_no_data"
+        android:orderInCategory="100"
+        android:title="无数据"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_type_error"
+        android:orderInCategory="100"
+        android:title="加载失败"
+        app:showAsAction="never"/>
+</menu>

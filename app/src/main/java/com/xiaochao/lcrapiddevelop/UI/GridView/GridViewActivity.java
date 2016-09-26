@@ -142,6 +142,6 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
 
     @Override
     public void showNoData() {
-        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_nodata),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 }

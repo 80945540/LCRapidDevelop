@@ -172,7 +172,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     @Override
     public void showNoData() {
         //设置无数据显示页面
-        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_cry),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
+        progress.showEmpty(getResources().getDrawable(R.mipmap.monkey_nodata),Constant.EMPTY_TITLE,Constant.EMPTY_CONTEXT);
     }
 
     /*

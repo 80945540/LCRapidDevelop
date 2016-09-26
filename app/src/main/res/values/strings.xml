@@ -5,6 +5,7 @@
     <string name="title_activity_grid_grouping_view">ListView分组模式</string>
     <string name="title_activity_list_chat_view">多布局ListView显示</string>
     <string name="title_activity_tab">Tab+Fragment快速实现</string>
+    <string name="title_activity_type">状态页面演示</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

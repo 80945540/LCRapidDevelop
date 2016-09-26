@@ -11,8 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.MainActivity">
-        </activity>
+        <activity android:name=".UI.MainActivity"></activity>
         <activity
             android:name=".UI.ListvView.ListvViewActivity"
             android:label="@string/title_activity_listv_view"
@@ -31,7 +30,8 @@
             android:name=".UI.Tab.TabActivity"
             android:label="@string/title_activity_tab" />
         <activity android:name=".UI.Video.VideoListActivity" />
-        <activity android:name=".UI.WelcomeActivity"
+        <activity
+            android:name=".UI.WelcomeActivity"
             android:theme="@style/welcomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UI.TypePage.TypePageActivity"
+            android:label="@string/title_activity_type"></activity>
     </application>
 
 </manifest>
