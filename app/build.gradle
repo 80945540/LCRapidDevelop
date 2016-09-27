@@ -34,6 +34,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
-    compile 'com.google.android.gms:play-services-ads:9.4.0'
+    compile 'com.github.VictorAlbertos.RxCache:core:1.4.6'
 }
