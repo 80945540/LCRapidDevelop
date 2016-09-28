@@ -330,38 +330,37 @@ Then is the head of the xml prepared
 Can play according to their own style to play the following table can be set to the property
 
 ---------
-| Attr | Description |
-|: ------- |
-| Stl_indicatorAlwaysInCenter | If set to true, active tags are always displayed in the center (such as the newsstands google app), the default error |
-| Stl_indicatorWithoutPadding | If set to true, the painted metrics are not populated in the tab, the default error |
-Stl_indicatorInFront | The underline of the indicator before the draw, the default error |
-| Stl_indicatorInterpolation | Behavioral metrics: Linear or Smart |
-| Stl_indicatorGravity | Position indicators for graphs: "bottom" or "front" or "center", default "bottom" |
-| Stl_indicatorColor | The color of the flag |
-| Stl_indicatorColors | Multiple color metrics that set the color of each tab |
-| Stl_indicatorThickness |
-| Stl_indicatorWidth | width of the indicators, the default "car" |
-| Stl_indicatorCornerRadius | Metric of fillet radius |
-| Stl_overlineColor | The color of the top line
-| Stl_overlineThickness | thickness of the top line
-Stl_underlineColor | The bottom line of the color
-Stl_underlineThickness | The bottom line of the thickness
-| Stl_dividerColor | Color separator between tabs |
-| Stl_dividerColors | Multiple color tabs between the tabs that can set the color of each tab |
-| Stl_dividerThickness | the thickness of the divider |
-| Stl_defaultTabBackground | Background can be pulled for each tab. General settings StateListDrawable |
-| Stl_defaultTabTextAllCaps | If set to true, all tab titles are uppercase, the default fact |
-| Stl_defaultTabTextColor | The color of the text includes the default tab |
-| Stl_defaultTabTextSize | The text includes the default tab size |
-| Stl_defaultTabTextHorizontalPadding | Text Layout Fill Default tabs include |
-| Stl_defaultTabTextMinWidth | The minimum width of the label |
-| Stl_customTabTextLayoutId | Layout ID Defines the custom tab. If you do not specify a layout, use the default tab
-| Stl_customTabTextViewId | Text View ID in a custom tab layout. If you do not define customTabTextLayoutId, do not work with
-| Stl_distributeEvenly | If set to true, each tab gives the same weight, the default error |
-| Stl_clickable | If set to false, disable the Select tab click, Default |
-| Stl_titleOffset | If set to "auto_center", the center of the middle slide tab will continue. If you specify a dimension that will offset the left edge, the default is 24 dp |
-| Stl_drawDecorationAfterTab | After painting decorations (indicators and lines) drawing tab, the default error |
-
+| attr | description |
+|:---|:---|
+| stl_indicatorAlwaysInCenter | If set to true, active tab is always displayed in center (Like Newsstand google app), default false |
+| stl_indicatorWithoutPadding | If set to true, draw the indicator without padding of tab, default false |
+| stl_indicatorInFront | Draw the indicator in front of the underline, default false |
+| stl_indicatorInterpolation | Behavior of the indicator: 'linear' or 'smart' |
+| stl_indicatorGravity | Drawing position of the indicator: 'bottom' or 'top' or 'center', default 'bottom' |
+| stl_indicatorColor | Color of the indicator |
+| stl_indicatorColors | Multiple colors of the indicator, can set the color for each tab |
+| stl_indicatorThickness | Thickness of the indicator |
+| stl_indicatorWidth | Width of the indicator, default 'auto' |
+| stl_indicatorCornerRadius | Radius of rounded corner the indicator |
+| stl_overlineColor | Color of the top line |
+| stl_overlineThickness | Thickness of the top line |
+| stl_underlineColor | Color of the bottom line |
+| stl_underlineThickness | Thickness of the bottom line |
+| stl_dividerColor | Color of the dividers between tabs |
+| stl_dividerColors | Multiple colors of the dividers between tabs, can set the color for each tab |
+| stl_dividerThickness | Thickness of the divider |
+| stl_defaultTabBackground | Background drawable of each tab. In general it set the StateListDrawable |
+| stl_defaultTabTextAllCaps | If set to true, all tab titles will be upper case, default true |
+| stl_defaultTabTextColor | Text color of the tab that was included by default |
+| stl_defaultTabTextSize | Text size of the tab that was included by default |
+| stl_defaultTabTextHorizontalPadding | Text layout padding of the tab that was included by default |
+| stl_defaultTabTextMinWidth | Minimum width of tab |
+| stl_customTabTextLayoutId | Layout ID defined custom tab. If you do not specify a layout, use the default tab |
+| stl_customTabTextViewId | Text view ID in a custom tab layout. If you do not define with customTabTextLayoutId, does not work |
+| stl_distributeEvenly | If set to true, each tab is given the same weight, default false |
+| stl_clickable | If set to false, disable the selection of a tab click, default true |
+| stl_titleOffset | If set to 'auto_center', the slide position of the tab in the middle it will keep to the center. If specify a dimension it will be offset from the left edge, default 24dp |
+| stl_drawDecorationAfterTab | Draw the decoration(indicator and lines) after drawing of tab, default false |
 --------
 Well the next TabActivity
 ```
