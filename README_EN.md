@@ -23,7 +23,7 @@
 --------
 
 ##Renderings show
-![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif)
+![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif)![状态页面](image/image6.gif)
 
 --------------
 
