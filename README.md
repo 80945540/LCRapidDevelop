@@ -10,6 +10,7 @@
 ###[English](README_EN.md)
 --------
 ##功能说明
+ - 异常崩溃统一管理
  - retrofit rxjava okhttp rxcache------------------------------网络请求以及网络缓存
  - Demo采用MVP模式开发------------------------------------数据逻辑复用,便于维护升级
  - 下拉刷新 上拉加载 及自动加载---------------------------实现监听方便快捷
@@ -23,7 +24,7 @@
 --------
 
 ##效果图展示
-![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif) ![状态页面](image/image6.gif)
+![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif) ![状态页面](image/image6.gif)![状态页面](image/image7.gif)
 
 --------------
 
@@ -38,6 +39,26 @@
     ....
     compile project(':lcrapiddeveloplibrary')
     }
+##轻松实现异常统一管理
+MyApplication里面初始化就可以了
+```
+public class MyApplication extends Application {
+
+   
+    @Override
+    public void onCreate() {
+        super.onCreate();
+       
+        //初始化异常管理工具
+        Recovery.getInstance()
+                .debug(true)//关闭后 在错误统一管理页面不显示异常数据
+                .recoverInBackground(false)
+                .recoverStack(true)
+                .mainPage(WelcomeActivity.class)//恢复页面
+                .init(this);
+    }
+}
+```
 
 ##轻松实现 状态页面 下拉刷新 自动加载 item动画
 首先layout.xml里面的编写啦 列表页面基本都是这个套路
@@ -415,3 +436,4 @@ public class TabActivity extends AppCompatActivity {
  - [SpringView](https://github.com/liaoinstan/SpringView)
  - [SmartTabLayout](https://github.com/ogaclejapan/SmartTabLayout)
  - [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+ - [Recovery](https://github.com/80945540/Recovery)

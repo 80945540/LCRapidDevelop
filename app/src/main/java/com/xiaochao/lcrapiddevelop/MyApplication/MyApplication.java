@@ -27,10 +27,10 @@ public class MyApplication extends Application {
 
         //初始化异常管理工具
         Recovery.getInstance()
-                .debug(true)
+                .debug(true)//关闭后 在错误统一管理页面不显示异常数据
                 .recoverInBackground(false)
                 .recoverStack(true)
-                .mainPage(WelcomeActivity.class)
+                .mainPage(WelcomeActivity.class)//恢复页面
                 .init(this);
     }
 

@@ -4,6 +4,7 @@
  - Interested in this project can be like to study a friend welcome star
  - Also welcome your valuable comments
  - If you are interested in MVP mode of development of network crawler and cache strategy can look at my latest writing Freebook
+ - [API地址](http://112.74.93.67/index.html)
  - E-mail: mychinalance@gmail.com
  - [Download APK](http://fir.im/LCRapidDevelop)
 
