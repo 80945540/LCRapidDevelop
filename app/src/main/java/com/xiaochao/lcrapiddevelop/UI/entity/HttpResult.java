@@ -1,5 +1,7 @@
 package com.xiaochao.lcrapiddevelop.UI.entity;
 
+import java.util.List;
+
 /**
  * Created by liukun on 16/3/5.
  */
@@ -7,78 +9,36 @@ public class HttpResult<T> {
 
 
     /**
-     * TotalCount : 11
-     * ReturnedCount : 1
-     * Results :
-     * Code : 1
-     * Message :
-     * Timestamp : 2016-07-28T10:50:31.116761+08:00
+     * data : []
+     * requestTime : 2016-11-02 14:00:25
+     * code : 1
      */
 
-    private int TotalCount;
-    private int ReturnedCount;
-    private T Results;
-    private int Code;
-    private String Message;
-    private String Timestamp;
+    private String requestTime;
+    private int code;
+    private T data;
 
-    public int getTotalCount() {
-        return TotalCount;
+    public String getRequestTime() {
+        return requestTime;
     }
 
-    public void setTotalCount(int TotalCount) {
-        this.TotalCount = TotalCount;
-    }
-
-    public int getReturnedCount() {
-        return ReturnedCount;
-    }
-
-    public void setReturnedCount(int ReturnedCount) {
-        this.ReturnedCount = ReturnedCount;
-    }
-
-    public T getResults() {
-        return Results;
-    }
-
-    public void setResults(T Results) {
-        this.Results = Results;
+    public void setRequestTime(String requestTime) {
+        this.requestTime = requestTime;
     }
 
     public int getCode() {
-        return Code;
+        return code;
     }
 
-    public void setCode(int Code) {
-        this.Code = Code;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getMessage() {
-        return Message;
+    public T getData() {
+        return data;
     }
 
-    public void setMessage(String Message) {
-        this.Message = Message;
-    }
-
-    public String getTimestamp() {
-        return Timestamp;
-    }
-
-    public void setTimestamp(String Timestamp) {
-        this.Timestamp = Timestamp;
-    }
-
-    @Override
-    public String toString() {
-        return "HttpResult{" +
-                "TotalCount=" + TotalCount +
-                ", ReturnedCount=" + ReturnedCount +
-                ", Results=" + Results +
-                ", Code=" + Code +
-                ", Message='" + Message + '\'' +
-                ", Timestamp='" + Timestamp + '\'' +
-                '}';
+    public void setData(T data) {
+        this.data = data;
     }
 }

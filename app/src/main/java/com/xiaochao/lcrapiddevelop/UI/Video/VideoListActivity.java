@@ -32,7 +32,6 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
     SpringView videolistspringview;
     ProgressActivity videolistprogress;
     private VideoLisViewAdapter mQuickAdapter;
-    private int PageIndex=1;
     private VideoListPresent present;
 
     @Override
@@ -59,10 +58,8 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
 
     }
     private void init() {
-        present = new VideoListPresent(this);
         videolistspringview.setListener(this);
         videolistspringview.setHeader(new RotationHeader(this));
-        //springView.setFooter(new RotationFooter(this));mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
         //设置RecyclerView的显示模式  当前List模式
         videolistrvlist.setLayoutManager(new LinearLayoutManager(this));
         //如果Item高度固定  增加该属性能够提高效率
@@ -87,12 +84,12 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
             }
         });
         //请求网络数据
-        present.LoadData(PageIndex,10,false);
+        present = new VideoListPresent(this);
+        present.LoadData();
     }
     @Override
     public void onRefresh() {
-        PageIndex=1;
-        present.LoadData(PageIndex,10,false);
+        present.LoadData();
     }
 
     @Override
@@ -102,8 +99,7 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
 
     @Override
     public void onLoadMoreRequested() {
-        PageIndex++;
-        present.LoadData(PageIndex,10,true);
+
     }
     /*
     * MVP状态
@@ -122,34 +118,18 @@ public class VideoListActivity extends AppCompatActivity implements BaseQuickAda
     public void newDatas(List<VideoListDto> newsList) {
         //进入显示的初始数据或者下拉刷新显示的数据
         mQuickAdapter.setNewData(newsList);//新增数据
-        mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
+        mQuickAdapter.openLoadMore(6,true);//设置是否可以下拉加载  以及加载条数
         videolistspringview.onFinishFreshAndLoad();//刷新完成
     }
-
-    @Override
-    public void addDatas(List<VideoListDto> addList) {
-        //新增自动加载的的数据
-        mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
-    }
-
     @Override
     public void showLoadFailMsg() {
         videolistprogress.showError(getResources().getDrawable(R.mipmap.monkey_cry), Constant.ERROR_TITLE, Constant.ERROR_CONTEXT, Constant.ERROR_BUTTON, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 videolistprogress.showLoading();
-                PageIndex=1;
-                present.LoadData(PageIndex,10,false);
+                present.LoadData();
             }
         });
-    }
-
-    @Override
-    public void showLoadCompleteAllData() {
-        //所有数据加载完成后显示
-        mQuickAdapter.notifyDataChangedAfterLoadMore(false);
-        View view = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) videolistrvlist.getParent(), false);
-        mQuickAdapter.addFooterView(view);
     }
 
     @Override

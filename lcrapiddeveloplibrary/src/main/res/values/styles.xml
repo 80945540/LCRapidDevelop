@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="RecoveryTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/recoveryColorPrimary</item>
+        <item name="colorPrimaryDark">@color/recoveryColorPrimaryDark</item>
+        <item name="colorAccent">@color/recoveryColorAccent</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="RecoveryTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="RecoveryTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="RecoveryTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
     <style name="jc_style_dialog_progress" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/jc_dialog_progress_bg</item>
         <item name="android:windowNoTitle">true</item>

@@ -2,7 +2,6 @@ package com.xiaochao.lcrapiddevelop.MVP.Model;
 
 import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.MVP.Listener.OnLoadDataListListener;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.util.List;
@@ -15,8 +14,8 @@ import rx.Observer;
 
 public class VideoListModel {
 
-    public void LoadData(int PageIndex, int PageSize, final OnLoadDataListListener listener){
-        HttpData.getInstance().verfacationCodeGetCache(PageIndex, PageSize, new Observer<List<VideoListDto>>() {
+    public void LoadData(final OnLoadDataListListener listener){
+        HttpData.getInstance().verfacationCodeGetCache( new Observer<List<VideoListDto>>() {
             @Override
             public void onCompleted() {
 

@@ -13,15 +13,15 @@ import android.widget.Toast;
 import com.xiaochao.lcrapiddevelop.UI.Adapter.ListViewAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
-import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.BookListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.BookListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 
 import java.util.List;
 
-public class GridViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,SchoolListView{
+public class GridViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,BookListView {
 
     RecyclerView mRecyclerView;
     SwipeRefreshLayout swipeLayout;
@@ -29,7 +29,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     private Toolbar toolbar;
     private BaseQuickAdapter mQuickAdapter;
     private int PageIndex=1;
-    private SchoolListPresent present;
+    private BookListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void initView() {
-        present = new SchoolListPresent(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         progress = (ProgressActivity) findViewById(R.id.progress);
@@ -79,19 +78,20 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
         mQuickAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mQuickAdapter.openLoadMore(6,true);
         mRecyclerView.setAdapter(mQuickAdapter);
-        present.LoadData(PageIndex,10,false);
+        present = new BookListPresent(this);
+        present.LoadData("1",PageIndex,false);
     }
 
     @Override
     public void onRefresh() {
         PageIndex=1;
-        present.LoadData(PageIndex,10,false);
+        present.LoadData("1",PageIndex,false);
     }
 
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        present.LoadData(PageIndex,10,true);
+        present.LoadData("1",PageIndex,true);
     }
 
     /*
@@ -108,7 +108,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     @Override
-    public void newDatas(List<UniversityListDto> newsList) {
+    public void newDatas(List<BookListDto> newsList) {
         //进入显示的初始数据或者下拉刷新显示的数据
         mQuickAdapter.setNewData(newsList);//新增数据
         mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
@@ -116,7 +116,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     @Override
-    public void addDatas(List<UniversityListDto> addList) {
+    public void addDatas(List<BookListDto> addList) {
         mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
     }
 
@@ -127,7 +127,7 @@ public class GridViewActivity extends AppCompatActivity implements SwipeRefreshL
             public void onClick(View v) {
                 progress.showLoading();
                 PageIndex=1;
-                present.LoadData(PageIndex,10,false);
+                present.LoadData("1",PageIndex,false);
             }
         });
     }

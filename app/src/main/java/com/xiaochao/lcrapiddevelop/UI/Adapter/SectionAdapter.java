@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.UI.entity.MySection;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddevelop.Util.GlideCircleTransform;
 import com.xiaochao.lcrapiddeveloplibrary.BaseSectionQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.BaseViewHolder;
@@ -33,13 +33,14 @@ public class SectionAdapter extends BaseSectionQuickAdapter<MySection> {
 
     @Override
     protected void convert(BaseViewHolder helper, MySection item) {
-        UniversityListDto video = (UniversityListDto) item.t;
-        helper.setText(R.id.listview_tv_title,video.getCnName()).setText(R.id.listview_tv_content,"热度:"+video.getHits());
+        BookListDto video = (BookListDto) item.t;
         Glide.with(mContext)
-                .load(video.getLogo().getPictureUrl())
+                .load(video.getImageUrl())
                 .crossFade()
-                .placeholder(R.mipmap.def_head)
-                .transform(new GlideCircleTransform(mContext))
-                .into((ImageView) helper.getView(R.id.listview_image_url));
+                .placeholder(R.mipmap.nocover)
+                .into((ImageView) helper.getView(R.id.book_info_image_url));
+        helper.setText(R.id.book_info_textview_name,video.getBookName());
+        helper.setText(R.id.book_info_textview_author,video.getAuthor());
+        helper.setText(R.id.book_info_textview_introduction,"简介:"+video.getIntroduction());
     }
 }

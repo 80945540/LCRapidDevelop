@@ -4,11 +4,10 @@ import com.xiaochao.lcrapiddevelop.Data.APi.CacheProviders;
 import com.xiaochao.lcrapiddevelop.Data.APi.MovieService;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.ApiException;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.RetrofitUtils;
-import com.xiaochao.lcrapiddevelop.Util.FileUtil;
-import com.xiaochao.lcrapiddevelop.UI.entity.Body.SchoolBody;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddevelop.UI.entity.HttpResult;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
 import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
+import com.xiaochao.lcrapiddevelop.Util.FileUtil;
 
 import java.io.File;
 import java.util.List;
@@ -48,16 +47,16 @@ public class HttpData extends RetrofitUtils {
     }
 
     //Get请求  视频列表
-    public void verfacationCodeGetCache(int pageIndex, int pageSize,Observer<List<VideoListDto>> observer) {
-        Observable observable=service.getVideoList(pageIndex, pageSize).map(new HttpResultFunc<List<VideoListDto>>());
-        Observable observableCahce=providers.getVideoList(observable,new DynamicKey("视频列表"+pageIndex+pageSize),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<VideoListDto>>());
+    public void verfacationCodeGetCache(Observer<List<VideoListDto>> observer) {
+        Observable observable=service.getVideoList().map(new HttpResultFunc<List<VideoListDto>>());
+        Observable observableCahce=providers.getVideoList(observable,new DynamicKey("视频列表"),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<VideoListDto>>());
         setSubscribe(observableCahce,observer);
     }
 
     //post请求 学校列表
-    public void HttpDataToSchoolList(int pageIndex, int pageSize,Observer<List<UniversityListDto>> observer){
-        Observable observable=service.getSchoolList(new SchoolBody("","","","",pageIndex,pageSize)).map(new HttpResultFunc<List<UniversityListDto>>());
-        Observable observableCahce=providers.getVideoList(observable,new DynamicKey("学校列表"+pageIndex+pageSize),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<UniversityListDto>>());
+    public void HttpDataToSchoolList(String type,int pageIndex,Observer<List<BookListDto>> observer){
+        Observable observable=service.getBookList(type,pageIndex).map(new HttpResultFunc<List<BookListDto>>());
+        Observable observableCahce=providers.getBookList(observable,new DynamicKey("书籍列表"+pageIndex+type),new EvictDynamicKey(false)).map(new HttpResultFuncCcche<List<BookListDto>>());
         setSubscribe(observableCahce,observer);
     }
 
@@ -88,7 +87,7 @@ public class HttpData extends RetrofitUtils {
                     throw new ApiException(httpResult);
                 }
 
-            return httpResult.getResults();
+            return httpResult.getData();
         }
     }
     /**

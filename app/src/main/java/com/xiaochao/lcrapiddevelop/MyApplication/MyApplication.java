@@ -3,6 +3,9 @@ package com.xiaochao.lcrapiddevelop.MyApplication;
 import android.app.Activity;
 import android.app.Application;
 
+import com.xiaochao.lcrapiddevelop.UI.WelcomeActivity;
+import com.xiaochao.lcrapiddeveloplibrary.Exception.core.Recovery;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,14 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.instance = this;
+
+        //初始化异常管理工具
+        Recovery.getInstance()
+                .debug(true)
+                .recoverInBackground(false)
+                .recoverStack(true)
+                .mainPage(WelcomeActivity.class)
+                .init(this);
     }
 
     /**

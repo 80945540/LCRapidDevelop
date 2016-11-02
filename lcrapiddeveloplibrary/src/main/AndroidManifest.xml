@@ -10,6 +10,14 @@
             android:name=".Video.JCFullScreenActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".Exception.core.RecoveryActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:process=":recover"
+            android:screenOrientation="portrait"
+            android:theme="@style/RecoveryTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

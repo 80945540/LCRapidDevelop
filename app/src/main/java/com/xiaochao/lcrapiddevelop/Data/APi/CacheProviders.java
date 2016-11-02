@@ -1,6 +1,6 @@
 package com.xiaochao.lcrapiddevelop.Data.APi;
 
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.util.List;
@@ -22,11 +22,12 @@ import rx.Observable;
  * DynamicKeyGroup。驱逐一组与key关联的数据，使用EvictDynamicKeyGroup。比如分页，排序或筛选要求
  */
 public interface CacheProviders {
-    //获取书库对应类别列表  缓存时间 1天
+
+    // 缓存时间 1天
     @LifeCache(duration = 7, timeUnit = TimeUnit.DAYS)
     Observable<Reply<List<VideoListDto>>> getVideoList(Observable<List<VideoListDto>> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
 
-    //获取书库分类信息缓存数据 缓存时间 永久
-    Observable<Reply<List<UniversityListDto>>> getSchoolList(Observable<List<UniversityListDto>> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
+    // 缓存时间 永久
+    Observable<Reply<List<BookListDto>>> getBookList(Observable<List<BookListDto>> oRepos, DynamicKey userName, EvictDynamicKey evictDynamicKey);
 
 }

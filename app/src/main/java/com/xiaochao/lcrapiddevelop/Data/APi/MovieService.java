@@ -1,13 +1,11 @@
 package com.xiaochao.lcrapiddevelop.Data.APi;
 
-import com.xiaochao.lcrapiddevelop.UI.entity.Body.SchoolBody;
 import com.xiaochao.lcrapiddevelop.UI.entity.HttpResult;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddevelop.UI.entity.VideoListDto;
 
 import java.util.List;
 
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -20,10 +18,10 @@ import rx.Observable;
 public interface MovieService {
 
     //获取视频地址
-    @GET("classroom/getHotVideos")
-    Observable<HttpResult<List<VideoListDto>>> getVideoList(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
+    @GET("video/getVideoList")
+    Observable<HttpResult<List<VideoListDto>>> getVideoList();
 
-    //获取学校列表
-    @POST("Colleges/getCollegeList")
-    Observable<HttpResult<List<UniversityListDto>>> getSchoolList(@Body SchoolBody schoolBody);
+    //根据图书类别获得图书列表
+    @GET("api/getTypeBooks")
+    Observable<HttpResult<List<BookListDto>>> getBookList(@Query("type")String type, @Query("pageIndex")int pageIndex);
 }

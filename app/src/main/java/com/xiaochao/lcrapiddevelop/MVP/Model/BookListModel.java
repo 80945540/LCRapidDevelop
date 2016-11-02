@@ -2,7 +2,7 @@ package com.xiaochao.lcrapiddevelop.MVP.Model;
 
 import com.xiaochao.lcrapiddevelop.Data.HttpData.HttpData;
 import com.xiaochao.lcrapiddevelop.MVP.Listener.OnLoadDataListListener;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import rx.Observer;
  * Created by Administrator on 2016/9/26.
  */
 
-public class SchoolListModel {
+public class BookListModel {
 
-    public void LoadData(int PageIndex, int PageSize, final OnLoadDataListListener listener){
-        HttpData.getInstance().HttpDataToSchoolList(PageIndex, PageSize, new Observer<List<UniversityListDto>>() {
+    public void LoadData(String type,int PageIndex, final OnLoadDataListListener listener){
+        HttpData.getInstance().HttpDataToSchoolList(type, PageIndex, new Observer<List<BookListDto>>() {
             @Override
             public void onCompleted() {
             }
@@ -26,7 +26,7 @@ public class SchoolListModel {
             }
 
             @Override
-            public void onNext(List<UniversityListDto> data) {
+            public void onNext(List<BookListDto> data) {
                 listener.onSuccess(data);
             }
         });

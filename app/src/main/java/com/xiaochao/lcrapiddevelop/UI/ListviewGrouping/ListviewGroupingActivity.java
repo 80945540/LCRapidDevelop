@@ -16,23 +16,23 @@ import com.xiaochao.lcrapiddevelop.UI.Adapter.SectionAdapter;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
 import com.xiaochao.lcrapiddevelop.Constant.JsonData;
 import com.xiaochao.lcrapiddevelop.R;
-import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
-import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.BookListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.BookListView;
 import com.xiaochao.lcrapiddevelop.UI.entity.MySection;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 
 import java.util.List;
 
-public class ListviewGroupingActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,SchoolListView {
+public class ListviewGroupingActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener,BookListView {
     RecyclerView mRecyclerView;
     ProgressActivity progress;
     SwipeRefreshLayout swipeLayout;
     private Toolbar toolbar;
     private SectionAdapter mQuickAdapter;
     private int PageIndex=1;
-    private SchoolListPresent present;
+    private BookListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +52,6 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     }
 
     private void initView() {
-        present = new SchoolListPresent(this);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         progress = (ProgressActivity) findViewById(R.id.progress);
@@ -63,8 +61,8 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
         mQuickAdapter.setOnLoadMoreListener(this);
         mQuickAdapter.openLoadMore(4,true);
         mRecyclerView.setAdapter(mQuickAdapter);
-
-        present.LoadData(PageIndex,4,false);
+        present = new BookListPresent(this);
+        present.LoadData("1",PageIndex,false);
     }
     private void initListener() {
         swipeLayout.setOnRefreshListener(this);
@@ -76,7 +74,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
                 try {
                     MySection mySection = (MySection) mQuickAdapter.getData().get(position);
                     if (!mySection.isHeader)
-                        Toast.makeText(ListviewGroupingActivity.this,mySection.t.getCnName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListviewGroupingActivity.this,mySection.t.getBookName(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -93,13 +91,13 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     @Override
     public void onRefresh() {
         PageIndex=1;
-        present.LoadData(PageIndex,4,false);
+        present.LoadData("1",PageIndex,false);
     }
     //自动加载
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        present.LoadData(PageIndex,4,true);
+        present.LoadData("1",PageIndex,true);
     }
 
     /*
@@ -160,7 +158,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     }
 
     @Override
-    public void newDatas(List<UniversityListDto> newsList) {
+    public void newDatas(List<BookListDto> newsList) {
         //进入显示的初始数据或者下拉刷新显示的数据
         mQuickAdapter.setNewData(JsonData.getSampleData(newsList,PageIndex));//新增数据
         mQuickAdapter.openLoadMore(4,true);//设置是否可以下拉加载  以及加载条数
@@ -168,7 +166,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
     }
 
     @Override
-    public void addDatas(List<UniversityListDto> addList) {
+    public void addDatas(List<BookListDto> addList) {
         mQuickAdapter.notifyDataChangedAfterLoadMore(JsonData.getSampleData(addList,PageIndex), true);
     }
 
@@ -192,7 +190,7 @@ public class ListviewGroupingActivity extends AppCompatActivity implements Swipe
             public void onClick(View v) {
                 progress.showLoading();
                 PageIndex=1;
-                present.LoadData(PageIndex,4,false);
+                present.LoadData("1",PageIndex,false);
             }
         });
     }

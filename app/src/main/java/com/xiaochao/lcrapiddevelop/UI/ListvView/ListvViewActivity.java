@@ -14,9 +14,9 @@ import android.widget.Toast;
 import com.xiaochao.lcrapiddevelop.Constant.Constant;
 import com.xiaochao.lcrapiddevelop.R;
 import com.xiaochao.lcrapiddevelop.UI.Adapter.ListViewAdapter;
-import com.xiaochao.lcrapiddevelop.MVP.Presenter.SchoolListPresent;
-import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.MVP.Presenter.BookListPresent;
+import com.xiaochao.lcrapiddevelop.MVP.View.BookListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 import com.xiaochao.lcrapiddeveloplibrary.BaseQuickAdapter;
 import com.xiaochao.lcrapiddeveloplibrary.container.AcFunHeader;
 import com.xiaochao.lcrapiddeveloplibrary.container.AliHeader;
@@ -28,7 +28,7 @@ import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 import java.util.List;
 
-public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener,SchoolListView {
+public class ListvViewActivity extends AppCompatActivity implements BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener,BookListView {
 
     RecyclerView mRecyclerView;
     ProgressActivity progress;
@@ -36,7 +36,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     private BaseQuickAdapter mQuickAdapter;
     private int PageIndex=1;
     private SpringView springView;
-    private SchoolListPresent present;
+    private BookListPresent present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     }
 
     private void initView() {
-        present = new SchoolListPresent(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         springView = (SpringView) findViewById(R.id.springview);
         //设置下拉刷新监听
@@ -83,8 +82,9 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
         mQuickAdapter.openLoadMore(6,true);
         //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
+        present = new BookListPresent(this);
         //请求网络数据
-        present.LoadData(PageIndex,12,false);
+        present.LoadData("1",PageIndex,false);
     }
     private void initListener() {
         //设置自动加载监听
@@ -108,13 +108,13 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     @Override
     public void onLoadMoreRequested() {
         PageIndex++;
-        present.LoadData(PageIndex,12,true);
+        present.LoadData("1",PageIndex,true);
     }
     //下拉刷新
     @Override
     public void onRefresh() {
         PageIndex=1;
-        present.LoadData(PageIndex,12,false);
+        present.LoadData("1",PageIndex,false);
     }
     //上啦加载  mRecyclerView内部集成的自动加载  上啦加载用不上   在其他View使用
     @Override
@@ -136,7 +136,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     }
 
     @Override
-    public void newDatas(List<UniversityListDto> newsList) {
+    public void newDatas(List<BookListDto> newsList) {
         //进入显示的初始数据或者下拉刷新显示的数据
         mQuickAdapter.setNewData(newsList);//新增数据
         mQuickAdapter.openLoadMore(10,true);//设置是否可以下拉加载  以及加载条数
@@ -144,7 +144,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
     }
 
     @Override
-    public void addDatas(List<UniversityListDto> addList) {
+    public void addDatas(List<BookListDto> addList) {
         //新增自动加载的的数据
         mQuickAdapter.notifyDataChangedAfterLoadMore(addList, true);
     }
@@ -156,7 +156,7 @@ public class ListvViewActivity extends AppCompatActivity implements BaseQuickAda
             @Override
             public void onClick(View v) {
                 PageIndex=1;
-                present.LoadData(PageIndex,12,false);
+                present.LoadData("1",PageIndex,false);
             }
         });
     }

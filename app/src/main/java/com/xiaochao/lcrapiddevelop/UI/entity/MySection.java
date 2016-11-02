@@ -5,14 +5,14 @@ import com.xiaochao.lcrapiddeveloplibrary.entity.SectionEntity;
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-public class MySection extends SectionEntity<UniversityListDto> {
+public class MySection extends SectionEntity<BookListDto> {
     private boolean isMroe;
     public MySection(boolean isHeader, String header, boolean isMroe) {
         super(isHeader, header);
         this.isMroe = isMroe;
     }
 
-    public MySection(UniversityListDto t) {
+    public MySection(BookListDto t) {
         super(t);
     }
 

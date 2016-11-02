@@ -28,12 +28,6 @@ public class ApiException extends RuntimeException {
     private static String getApiExceptionMessage(HttpResult httpResult){
         String message = "";
         switch (httpResult.getCode()) {
-            case 1001:
-                message = httpResult.getMessage();
-                break;
-            case 1002:
-                message = httpResult.getMessage();
-                break;
             default:
                 message = "与服务端链接错误"+httpResult.getCode();
 

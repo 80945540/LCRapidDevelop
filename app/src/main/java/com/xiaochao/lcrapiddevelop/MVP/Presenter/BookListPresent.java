@@ -1,9 +1,9 @@
 package com.xiaochao.lcrapiddevelop.MVP.Presenter;
 
-import com.xiaochao.lcrapiddevelop.MVP.Model.SchoolListModel;
+import com.xiaochao.lcrapiddevelop.MVP.Model.BookListModel;
 import com.xiaochao.lcrapiddevelop.MVP.Listener.OnLoadDataListListener;
-import com.xiaochao.lcrapiddevelop.MVP.View.SchoolListView;
-import com.xiaochao.lcrapiddevelop.UI.entity.UniversityListDto;
+import com.xiaochao.lcrapiddevelop.MVP.View.BookListView;
+import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
 
 import java.util.List;
 
@@ -11,25 +11,23 @@ import java.util.List;
  * Created by Administrator on 2016/9/26.
  */
 
-public class SchoolListPresent implements OnLoadDataListListener<List<UniversityListDto>> {
-    private SchoolListView mView;
-    private SchoolListModel mModel;
+public class BookListPresent implements OnLoadDataListListener<List<BookListDto>> {
+    private BookListView mView;
+    private BookListModel mModel;
     private boolean isjz;
-    public SchoolListPresent(SchoolListView mView) {
+    public BookListPresent(BookListView mView) {
         this.mView = mView;
-        this.mModel=new SchoolListModel();
+        this.mModel=new BookListModel();
+        mView.showProgress();
     }
 
-    public void LoadData(int PageIndex, int PageSize,boolean isjz){
+    public void LoadData(String type,int PageIndex,boolean isjz){
         this.isjz=isjz;
-        mModel.LoadData(PageIndex,PageSize,this);
-        if(!isjz){
-            mView.showProgress();
-        }
+        mModel.LoadData(type,PageIndex,this);
     }
 
     @Override
-    public void onSuccess(List<UniversityListDto> data) {
+    public void onSuccess(List<BookListDto> data) {
         if(isjz){
             if(data.size()==0){
                 mView.showLoadCompleteAllData();

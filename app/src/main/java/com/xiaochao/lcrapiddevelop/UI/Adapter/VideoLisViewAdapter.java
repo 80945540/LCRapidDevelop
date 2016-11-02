@@ -39,7 +39,7 @@ public class VideoLisViewAdapter extends BaseQuickAdapter<VideoListDto> {
                 .placeholder(R.mipmap.def_head)
                 .into((ImageView) helper.getView(R.id.video_list_item_image));
         //对视频的赋值 添加视频播放地址(使用原地址  .mp4之类的  这个要注意)和标题
-        ((JCVideoPlayerStandard)helper.getView(R.id.video_list_item_playr)).setUp(item.getAppVideoUrl(),item.getTitle());
+        ((JCVideoPlayerStandard)helper.getView(R.id.video_list_item_playr)).setUp(item.getViodeoUrl(),item.getTitle());
         Glide.with(mContext)
                 .load(item.getPictureUrl())
                 .crossFade()
