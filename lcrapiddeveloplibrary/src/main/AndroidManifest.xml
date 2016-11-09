@@ -18,6 +18,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/RecoveryTheme.NoActionBar">
         </activity>
+        <service
+            android:name=".Exception.core.RecoveryService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":recover">
+        </service>
     </application>
 
 </manifest>

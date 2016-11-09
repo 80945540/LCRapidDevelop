@@ -13,7 +13,7 @@ public class Constant {
     public static String EMPTY_CONTEXT="换个条件试试吧";
 
     //服务器路径
-    public static final String API_SERVER = "http://112.74.93.67";
+    public static final String API_SERVER = "http://mylance.top";
 
 
 }

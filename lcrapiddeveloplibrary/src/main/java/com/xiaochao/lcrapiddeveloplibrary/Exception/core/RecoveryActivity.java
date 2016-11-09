@@ -88,7 +88,7 @@ public final class RecoveryActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolbar.setTitle("异常处理");
+        mToolbar.setTitle(RecoveryUtil.getAppName(this));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,6 +273,7 @@ public final class RecoveryActivity extends AppCompatActivity {
                 }
             }
             if (!availableIntents.isEmpty()) {
+                availableIntents.get(0).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 availableIntents.get(availableIntents.size() - 1).putExtra(RECOVERY_MODE_ACTIVE, true);
                 startActivities(availableIntents.toArray(new Intent[availableIntents.size()]));
                 overridePendingTransition(0, 0);

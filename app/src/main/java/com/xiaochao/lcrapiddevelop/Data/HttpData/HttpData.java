@@ -1,7 +1,7 @@
 package com.xiaochao.lcrapiddevelop.Data.HttpData;
 
 import com.xiaochao.lcrapiddevelop.Data.APi.CacheProviders;
-import com.xiaochao.lcrapiddevelop.Data.APi.MovieService;
+import com.xiaochao.lcrapiddevelop.Data.APi.APIService;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.ApiException;
 import com.xiaochao.lcrapiddevelop.Data.Retrofit.RetrofitUtils;
 import com.xiaochao.lcrapiddevelop.UI.entity.BookListDto;
@@ -33,7 +33,7 @@ public class HttpData extends RetrofitUtils {
             .persistence(cacheDirectory)
             .using(CacheProviders.class);
 
-    protected static final MovieService service = getRetrofit().create(MovieService.class);
+    protected static final APIService service = getRetrofit().create(APIService.class);
 
 
     //在访问HttpMethods时创建单例

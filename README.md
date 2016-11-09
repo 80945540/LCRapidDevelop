@@ -5,7 +5,7 @@
  - 同时也欢迎大家的宝贵意见issues
  - 如果大家对MVP模式的开发 网络爬虫以及缓存策略感兴趣的话可以看看我最新写的[Freebook](https://github.com/80945540/FreeBook)
  - 邮箱:mychinalance@gmail.com
- - [API地址](http://112.74.93.67/index.html)
+ - [API地址](http://mylance.top/index.html)
  - [下载APK](http://fir.im/LCRapidDevelop) 
 
 ###[English](README_EN.md)
