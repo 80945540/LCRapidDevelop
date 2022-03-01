@@ -1,3 +1,45 @@
+## 项目以多年未维护 使用技术解决方案也均已落后
+## 若您对技术有着狂热的追求,我期待您能加入我的团队
+## 无论你是高手还是菜鸟,只要你想在技术深耕我都欢迎您  
+## 坐标:上海 宝山区
+## 以下是岗位需求,若您感兴趣欢迎投递简历到邮箱:shengqq@eagersoft.cn (记得备注来源是 github开源项目 )
+
+
+> Android岗位  
+
+1、熟练掌握Java开发技术，具备扎实的编程基础；  
+2、熟练掌握Android各类UI组件、图像动画、网络、文件系统等模块的使用和开发；  
+3、熟练掌握Android的API，理解Android的体系结构；  
+4、熟练运用市面上主流的开源库，如Glide、RxJava等；  
+5、熟悉Android中界面绘制、后台运行、数据存储等的原理；  
+6、了解Jectpack相关组件；  
+7、了解Android内存管理机制，并能进行优化；  
+8、拥有一定的Android自绘技能；  
+9、拥有良好的代码规范，文档能力，Git使用经验；  
+
+> IOS岗位
+
+1、有扎实的Swift基础，了解应用基本算法/数据结构,了解基础设计模式;  
+2、熟悉iOS SDK开发环境及相关开发工具;  
+3、熟悉RxSwift、Sqlite；  
+4、熟练掌握Autolayout、xib、storyboard；  
+5、具有良好编码风格,有较强的独立工作能力和团队合作精神;  
+
+> 前端-小程序方向
+
+1、掌握HTML5、CSS3、ES6，JS基础扎实；  
+2、掌握微信小程序开发原理、开发流程、接口组件、验证授权等，能独立开发微信小程序；  
+3、熟练使用canvas；  
+4、有完整的微信小程序项目经验；  
+5、有字节跳动/百度/支付宝/快应用等小程序开发经验者优先。  
+
+> 前端-web方向
+
+1、熟练Ajax、Node.js、NPM常用的开发体系原理，完成数据绑定、业务交互等；  
+2、熟练VUE、Bootstrap、jQuery等框架，懂得灵活运用；    
+3、对JS模块化和通用化有一定设计经验的；    
+4、有良好的团队合作精神；沟通能力强、有责任心、做事细致；
+
 # RapidDevelop-Android快速开发框架
  - 框架持续更新中
  - 这个框架是从平时项目里用的比较多的框架里整合而来
@@ -8,9 +50,9 @@
  - [API地址](http://mylance.top/index.html)
  - [下载APK](http://fir.im/LCRapidDevelop) 
 
-###[English](README_EN.md)
+### [English](README_EN.md)
 --------
-##功能说明
+## 功能说明
  - 异常崩溃统一管理
  - retrofit rxjava okhttp rxcache------------------------------网络请求以及网络缓存
  - Demo采用MVP模式开发------------------------------------数据逻辑复用,便于维护升级
@@ -24,12 +66,11 @@
 
 --------
 
-##效果图展示
-![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif) ![状态页面](image/image6.gif)![状态页面](image/image7.gif)
-
+## 效果图展示
+![下拉刷新](image/image1.gif) ![动画](image/image2.gif)  ![](image/image3.gif)  ![多布局](image/image4.gif) ![视频播放](image/image5.gif) ![状态页面](image/image6.gif)
 --------------
 
-##使用说明
+## 使用说明
 
 导入 lcrapiddeveloplibrary 到项目
 
@@ -40,7 +81,7 @@
     ....
     compile project(':lcrapiddeveloplibrary')
     }
-##轻松实现异常统一管理
+## 轻松实现异常统一管理
 MyApplication里面初始化就可以了
 ```
 public class MyApplication extends Application {
@@ -61,7 +102,7 @@ public class MyApplication extends Application {
 }
 ```
 
-##轻松实现 状态页面 下拉刷新 自动加载 item动画
+## 轻松实现 状态页面 下拉刷新 自动加载 item动画
 首先layout.xml里面的编写啦 列表页面基本都是这个套路
 ```
 <!--ProgressActivity用于状态页的控制 比如加载中  网络异常  无数据  适合任何页面-->
@@ -432,7 +473,7 @@ public class TabActivity extends AppCompatActivity {
 ```
 
 --------
-##特别感谢
+## 特别感谢
  - [JieCaoVideoPlayer](https://github.com/lipangit/JieCaoVideoPlayer)
  - [SpringView](https://github.com/liaoinstan/SpringView)
  - [SmartTabLayout](https://github.com/ogaclejapan/SmartTabLayout)
